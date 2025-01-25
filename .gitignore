@@ -41,3 +41,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+/ios
+
+/android
+
+.env
+
+lib/models/generated/
+lib/dto/generated/
+
+pubspec.lock
+
