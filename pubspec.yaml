@@ -1,0 +1,42 @@
+name: woori
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # ==== Freezed Annotation (런타임에 필요) ====
+  freezed_annotation: ^2.4.4
+
+  # ==== JSON Annotation (런타임에 필요) ====
+  json_annotation: ^4.8.1
+
+  # ==== 기타 필요한 패키지 ====
+  dio: ^5.7.0
+  flutter_riverpod: ^2.6.1
+  # ...등등 프로젝트 필요 패키지
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+  # ==== 빌드 러너 (코드 제너레이션) ====
+  build_runner: ^2.4.13
+
+  # ==== Freezed (코드 제너레이션 로직) ====
+  freezed: ^2.4.4
+
+  # ==== JSON Serializable (코드 제너레이션 로직) ====
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
