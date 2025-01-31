@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'auth_provider.dart';
-import 'auth_state.dart';
 
 class LoginScreen extends ConsumerWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +23,7 @@ class LoginScreen extends ConsumerWidget {
         child: Column(
           children: [
             // 에러가 있다면 표시
-            if (authState.error != null) 
+            if (authState.error != null)
               Text(
                 'Error: ${authState.error}',
                 style: const TextStyle(color: Colors.red),
@@ -39,7 +38,7 @@ class LoginScreen extends ConsumerWidget {
               obscureText: true,
             ),
             const SizedBox(height: 16),
-            if (authState.isLoading) 
+            if (authState.isLoading)
               const CircularProgressIndicator()
             else
               ElevatedButton(
@@ -49,7 +48,9 @@ class LoginScreen extends ConsumerWidget {
                   final pass = pwController.text.trim();
 
                   // login 호출
-                  await ref.read(authNotifierProvider.notifier).login(email, pass);
+                  await ref
+                      .read(authNotifierProvider.notifier)
+                      .login(email, pass);
 
                   // 로그인 성공 시, authState.token에 값이 있으므로
                   final token = ref.read(authNotifierProvider).token;

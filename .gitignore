@@ -46,10 +46,15 @@ app.*.map.json
 
 /android
 
+/linux
+/macos
+/windows
+/web
+
 .env
+.metadata
 
 lib/models/generated/
 lib/dto/generated/
 
 pubspec.lock
-

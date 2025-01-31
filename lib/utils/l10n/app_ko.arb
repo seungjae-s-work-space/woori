@@ -1,0 +1,49 @@
+{
+    "@@locale": "ko",
+
+
+    "@section_appbar": {
+        "description": "AppBar 섹션"
+    },
+
+    "app_bar_title": "베리오더",
+    "login_app_bar_title": "로그인 스크린",
+    "sign_up_app_bar_title": "회원가입 스크린",
+
+
+    "@section_errorcode": {
+        "description": "ErrorCode 섹션"
+    },
+
+    "errorCode_public001": "서버 오류가 발생했습니다.",
+
+    "errorCode_auth001": "이메일 형식이 올바르지 않습니다.",
+    "errorCode_auth002": "비밀번호는 4자리 이상이어야 합니다.",
+    "errorCode_auth003": "입력필드에 누락된 데이터가 존재합니다.",
+    "errorCode_auth004": "이미 가입된 이메일 입니다.",
+    "errorCode_auth005": "이메일 또는 비밀번호가 틀렸습니다.",
+    "errorCode_auth006": "등록되지 않은 롤입니다.",
+    "errorCode_auth007": "토큰이 존재하지 않습니다.",
+    "errorCode_auth008": "토큰이 만료되었습니다.",
+
+
+    "@section_buttontext": {
+        "description": "ButtonText 섹션"
+    },
+
+
+
+    "@section_text": {
+        "description": "Text 섹션"
+    },
+
+
+    "@section_form_validation": {
+        "description": "FormValidation 섹션"
+    },
+
+    "form_validation_email_required": "이메일을 입력하세요",
+    "form_validation_email_invalid": "올바른 이메일 형식이 아닙니다",
+    "form_validation_password_required": "비밀번호를 입력하세요",
+    "form_validation_password_short": "비밀번호는 4자 이상이어야 합니다"
+}

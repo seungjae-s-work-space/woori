@@ -9,8 +9,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final SignUpUseCase _signUpUseCase;
   final LoginUseCase _loginUseCase;
 
-  AuthNotifier(this._signUpUseCase, this._loginUseCase)
-      : super(AuthState());
+  AuthNotifier(this._signUpUseCase, this._loginUseCase) : super(AuthState());
 
   // 회원가입
   Future<void> signUp(String email, String password) async {
