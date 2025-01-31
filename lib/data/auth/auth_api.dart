@@ -1,8 +1,8 @@
 // lib/data/auth/auth_api.dart
 
 import 'package:dio/dio.dart';
-import 'dto/login_request.dart';
-import 'dto/login_response.dart';
+import '../../dto/login_request.dart';
+import '../../dto/login_response.dart';
 
 class AuthApi {
   final Dio dio;
