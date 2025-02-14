@@ -10,6 +10,22 @@
     "login_app_bar_title": "로그인 스크린",
     "sign_up_app_bar_title": "회원가입 스크린",
 
+    "select_role_app_bar_title": "역할 선택 스크린",
+    "admin_dashboard_app_bar_title": "관리자 대쉬보드 스크린",
+    
+    "admin_menu_list_app_bar_title": "관리자 메뉴목록 스크린",
+    "admin_menu_append_app_bar_title": "메뉴추가 스크린",
+    "admin_menu_category_list_app_bar_title": "메뉴 카테고리 목록 스크린",
+    "admin_menu_soldout_list_app_bar_title": "품절 목록 스크린",
+    "admin_menu_statics_app_bar_title": "메뉴 통계 스크린",
+
+    "admin_table_list_app_bar_title": "관리자 테이블 목록 스크린",
+    "admin_table_append_app_bar_title": "테이블 추가 스크린",
+
+    "admin_order_list_app_bar_title": "관리자 주문 목록 스크린",
+
+    "admin_setting_list_app_bar_title": "관리자 설정 스크린",
+
 
     "@section_errorcode": {
         "description": "ErrorCode 섹션"
@@ -32,6 +48,11 @@
     },
 
 
+    "button_text_login": "로그인",
+    "button_text_sign_up": "회원가입",
+    "button_text_next": "다음",
+    "button_text_find_id_password": "아이디/비밀번호 찾기",
+
 
     "@section_text": {
         "description": "Text 섹션"
@@ -42,8 +63,52 @@
         "description": "FormValidation 섹션"
     },
 
-    "form_validation_email_required": "이메일을 입력하세요",
+    "form_validation_any_required": "필수 입력 필드에 입력값이 존재하지 않습니다",
     "form_validation_email_invalid": "올바른 이메일 형식이 아닙니다",
-    "form_validation_password_required": "비밀번호를 입력하세요",
-    "form_validation_password_short": "비밀번호는 4자 이상이어야 합니다"
+    "form_validation_password_short": "비밀번호는 4자 이상이어야 합니다",
+    "form_validation_password_confirm_required": "비밀번호를 검증 해주세요",
+    "form_validation_password_confirm_not_match": "비밀번호가 일치하지 않습니다",
+    "form_validation_restaurant_name_short": "최소 2자 이상 입력해주세요",
+    "form_validation_restaurant_name_long": "최대 20자 이하로 입력해주세요",
+    "form_validation_input_number": "숫자만 입력해주세요",
+
+    "@section_form_label_text": {
+        "description": "FormLabelText 섹션"
+    },
+
+    "form_label_text_email": "이메일",
+    "form_label_text_password": "비밀번호",
+    "form_label_text_password_confirm": "비밀번호 확인",
+    "form_label_text_restaurant_name": "상호명",
+    "form_label_text_restaurant_category": "카테고리",
+    "form_label_text_restaurant_address": "주소",
+    "form_label_text_restaurant_table_count": "테이블 수",
+
+    "@section_restaurant_category": {
+        "description": "RestaurantCategory 섹션"
+    },
+
+    "restaurant_category_korean": "한식",
+    "restaurant_category_chinese": "중식",
+    "restaurant_category_japanese": "일식",
+    "restaurant_category_western": "양식",
+    "restaurant_category_cafe": "카페",
+    "restaurant_category_bakery": "베이커리",
+    "restaurant_category_other": "기타",
+
+    "@section_dialog_text": {
+        "description": "DialogText 섹션"
+    },
+
+    "dialog_text_success": "Success",
+    "dialog_text_error": "Error",
+    "dialog_okay_button": "Okay",
+
+    "table_view_icon": "테이블 뷰",
+    "details_of_sales_icon": "매출 내역",
+    "menu_settings_icon": "메뉴 설정",
+    "order_details_icon": "주문 내역",
+    "placement_of_the_table": "테이블 배치",
+    "admin_menu": "관리자 메뉴",
+    "sample_restaurant_name": "정우네 왕고집"
 }
