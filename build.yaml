@@ -17,3 +17,7 @@ targets:
           build_extensions:
             '^lib/models/{{}}.dart': 'lib/models/generated/{{}}.freezed.dart'
             '^lib/dto/{{}}.dart': 'lib/dto/generated/{{}}.freezed.dart'
+      flutter_gen_runner:
+        options:
+          output: lib/utils/image_generated/
+          line_length: 120
