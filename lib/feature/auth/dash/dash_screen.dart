@@ -27,10 +27,10 @@ class DashScreen extends StatelessWidget {
                 context.push('/login');
               },
               child: Container(
-                  decoration: BoxDecoration(color: Color(0xff545454)),
+                  decoration: const BoxDecoration(color: Color(0xff545454)),
                   child: Text(
                     context.l10n.button_text_login,
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
                   )),
             )
                 // child: TextButton(
