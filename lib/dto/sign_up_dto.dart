@@ -8,10 +8,7 @@ class SignUpDto with _$SignUpDto {
   const factory SignUpDto({
     String? email,
     String? password,
-    String? restaurantName,
-    String? foodService,
-    String? address,
-    int? tableCount,
+    String? nickname,
   }) = _SignUpDto;
 
   factory SignUpDto.fromJson(Map<String, dynamic> json) =>

@@ -14,11 +14,6 @@ class DashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // Image.asset(
-            //   'assets/images/dash/appLogo.png',
-            //   height: 200,
-            //   width: 200,
-            // ),
             Assets.images.dash.appLogo.image(width: 200),
             Assets.images.dash.appLogoCharacter.image(width: 143),
             Center(
@@ -32,13 +27,7 @@ class DashScreen extends StatelessWidget {
                     context.l10n.button_text_login,
                     style: const TextStyle(fontSize: 16, color: Colors.white),
                   )),
-            )
-                // child: TextButton(
-                //     onPressed: () {
-                //       context.push('/login');
-                //     },
-                //     child: Text(context.l10n.button_text_login)),
-                )
+            ))
           ],
         ),
       ),

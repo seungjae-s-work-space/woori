@@ -5,6 +5,7 @@ import 'package:woori/common/screen/not_found_screen.dart';
 import 'package:woori/feature/auth/dash/dash_screen.dart';
 import 'package:woori/feature/auth/login/login_screen.dart';
 import 'package:woori/feature/auth/signup/sign_up_screen.dart';
+import 'package:woori/feature/camera/camera_screen.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -27,10 +28,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/signup',
         builder: (context, state) => const SignUpScreen(),
       ),
-      // GoRoute(
-      //   path: '/signup',
-      //   builder: (context, state) => const SignUpScreen(),
-      // ),
+      GoRoute(
+        path: '/camera',
+        builder: (context, state) => const CameraScreen(),
+      ),
       // GoRoute(
       //   path: '/select_role',
       //   builder: (context, state) => const SelectRoleScreen(),

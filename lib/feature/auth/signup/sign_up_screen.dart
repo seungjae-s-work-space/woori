@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:woori/feature/auth/signup/pages/sign_up_confirmed_info.dart';
+import 'package:woori/feature/auth/signup/pages/sign_up_input_nickname_page.dart';
 import 'package:woori/feature/auth/signup/pages/sing_up_input_user_id_pw_page.dart';
 import 'package:woori/utils/localization_extension.dart';
 
@@ -19,12 +21,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final TextEditingController userEmailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
   final TextEditingController pwConfirmController = TextEditingController();
-  final TextEditingController restaurantNameController =
-      TextEditingController();
-  final TextEditingController restaurantAddressController =
-      TextEditingController();
-  final TextEditingController restaurantTableCountController =
-      TextEditingController();
+  final TextEditingController nickNameController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PageController _pageController = PageController();
 
@@ -34,9 +32,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     userEmailController.dispose();
     pwController.dispose();
     pwConfirmController.dispose();
-    restaurantNameController.dispose();
-    restaurantAddressController.dispose();
-    restaurantTableCountController.dispose();
+    nickNameController.dispose();
     super.dispose();
   }
 
@@ -70,21 +66,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             pwConfirmController: pwConfirmController,
             formKey: formKey,
           ),
-          // SignUpInputRestaurantInfoPage(
-          //   onNext: () => _pageController.nextPage(
-          //     duration: const Duration(milliseconds: 300),
-          //     curve: Curves.easeInOut,
-          //   ),
-          //   restaurantNameController: restaurantNameController,
-          //   restaurantAddressController: restaurantAddressController,
-          //   restaurantTableCountController: restaurantTableCountController,
-          // ),
-          // SignUpConfirmedInfo(
-          //   onNext: () => _pageController.nextPage(
-          //     duration: const Duration(milliseconds: 300),
-          //     curve: Curves.easeInOut,
-          //   ),
-          // ),
+          SignUpInputNickNamePage(
+            onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            ),
+            nickNameController: nickNameController,
+          ),
+          SignUpConfirmedInfo(
+            onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            ),
+          ),
         ],
       ),
     );
