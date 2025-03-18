@@ -22,11 +22,14 @@ class _RestApiClient implements RestApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<dynamic> get(String endpoint) async {
+  Future<dynamic> get(
+    String endpoint,
+    dynamic body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = body;
     final _options = _setStreamType<dynamic>(Options(
       method: 'GET',
       headers: _headers,
@@ -109,11 +112,14 @@ class _RestApiClient implements RestApiClient {
   }
 
   @override
-  Future<dynamic> delete(String endpoint) async {
+  Future<dynamic> delete(
+    String endpoint,
+    dynamic body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = body;
     final _options = _setStreamType<dynamic>(Options(
       method: 'DELETE',
       headers: _headers,

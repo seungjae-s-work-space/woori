@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:woori/feature/auth/login/widget/log_in_button_widget.dart';
+import 'package:woori/feature/auth/login/widget/sign_up_button_widget.dart';
 import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/form_validation_mixin.dart';
 import 'package:woori/utils/localization_extension.dart';
@@ -13,12 +14,12 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> with FormValidationMixin {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nicknameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    nicknameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -40,35 +41,40 @@ class _LogInScreenState extends State<LogInScreen> with FormValidationMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: emailController,
-                validator: (value) => validateEmail(value, context),
+                controller: nicknameController,
+                // validator: (value) => validateEmail(value, context),
                 decoration: const InputDecoration(
-                  labelText: '이메일',
+                  labelText: '닉네임',
                 ),
+                // keyboardType:
+                //     TextInputType.emailAddress, // 이메일 입력을 위한 입력 키보드로 변환
+                textInputAction:
+                    TextInputAction.next, // 스크린의 입력 키보드에 next 버튼 생성
               ),
               TextFormField(
                 controller: passwordController,
-                validator: (value) => validatePassword(value, context),
+                // validator: (value) => validatePassword(value, context),
                 decoration: const InputDecoration(
                   labelText: '비밀번호',
                 ),
+                onFieldSubmitted: (_) {
+                  LogInButton(
+                    formKey: _formKey,
+                    nicknameController: nicknameController,
+                    passwordController: passwordController,
+                  );
+                },
               ),
-              TextButton(
-                  onPressed: () {
-                    //TODO 원활한 더미 스크린 이동을 위해 잠시 주석처리 함 추후 기능 구현 시 주석 제거 할 것
-                    // if (_formKey.currentState?.validate() ?? false) {
-                    //   showDialog(
-                    //       context: context,
-                    //       builder: (context) => const RoleDialogWidget());
-                    // }
-                    context.push('/select_role');
-                  },
-                  child: const Text("로그인")),
-              TextButton(
-                  onPressed: () {
-                    context.push('/signup');
-                  },
-                  child: const Text("Sign up"))
+              // const FindPwButton(),
+              LogInButton(
+                formKey: _formKey,
+                nicknameController: nicknameController,
+                passwordController: passwordController,
+              ),
+
+              /// 로그인 폼 - 로그인 버튼
+              const SizedBox(height: 10),
+              const SignUpButton(),
             ],
           ),
         ),

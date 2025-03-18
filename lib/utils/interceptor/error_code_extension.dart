@@ -29,6 +29,9 @@ extension ErrorCodeExtension on DioException {
       case 'errorCode_auth008':
         return context.l10n.errorCode_auth008;
 
+      case 'errorCode_user001':
+        return context.l10n.errorCode_user001;
+
       // // Category
       // case 'errorCode_category001':
       //   return context.l10n.errorCode_category001;

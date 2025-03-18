@@ -12,7 +12,7 @@
 
     "select_role_app_bar_title": "역할 선택 스크린",
     "admin_dashboard_app_bar_title": "관리자 대쉬보드 스크린",
-    
+
     "admin_menu_list_app_bar_title": "관리자 메뉴목록 스크린",
     "admin_menu_append_app_bar_title": "메뉴추가 스크린",
     "admin_menu_category_list_app_bar_title": "메뉴 카테고리 목록 스크린",
@@ -37,10 +37,12 @@
     "errorCode_auth002": "비밀번호는 4자리 이상이어야 합니다.",
     "errorCode_auth003": "입력필드에 누락된 데이터가 존재합니다.",
     "errorCode_auth004": "이미 가입된 이메일 입니다.",
-    "errorCode_auth005": "이메일 또는 비밀번호가 틀렸습니다.",
-    "errorCode_auth006": "등록되지 않은 롤입니다.",
-    "errorCode_auth007": "토큰이 존재하지 않습니다.",
-    "errorCode_auth008": "토큰이 만료되었습니다.",
+    "errorCode_auth005": "이미 존재하는 닉네임입니다.",
+    "errorCode_auth006": "존재하지 않는 닉네임입니다.",
+    "errorCode_auth007": "비밀번호가 틀렸습니다.",
+    "errorCode_auth008": "토큰이 누락되었습니다.",
+
+    "errorCode_user001": "존재하지않는 유저입니다.",
 
 
     "@section_buttontext": {

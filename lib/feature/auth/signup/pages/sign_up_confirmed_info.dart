@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:woori/feature/auth/login/login_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:woori/feature/auth/signup/provider/sign_up_provider.dart';
 import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/dialog/panara_dialog.dart';
@@ -37,12 +37,7 @@ class SignUpConfirmedInfo extends ConsumerWidget {
                     await signUpState.signUp(signUpData.signUpDto!);
 
                     if (context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LogInScreen(),
-                        ),
-                      );
+                      context.go('/login'); // 🚀 GoRouter 사용하여 로그인 화면으로 이동
                     }
                   } on DioException catch (e) {
                     if (context.mounted) {
