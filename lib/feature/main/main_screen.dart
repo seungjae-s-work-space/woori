@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:woori/feature/camera/camera_screen.dart';
 import 'package:woori/feature/lookaround/explore_screen.dart';
 import 'package:woori/feature/mymenu/mymenu_screen.dart';
 import 'package:woori/feature/meal_log/meal_log_screen.dart';
@@ -30,10 +29,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       body: IndexedStack(
         index: _currentIndex,
         children: const [
-          CameraScreen(),
           ExploreScreen(),
           MealLogScreen(),
           MyMenuScreen(),
+          // MyMenuScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -45,10 +44,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         },
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.camera_alt),
-            label: context.l10n.main_screen_camera,
-          ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.explore),
             label: context.l10n.main_screen_explore,

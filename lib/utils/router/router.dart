@@ -52,16 +52,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/camera',
         builder: (context, state) => const CameraScreen(),
-        routes: [
-          GoRoute(
-            path: 'createPost', // <-- 상대 경로 (슬래시 없이)
-            builder: (context, state) {
-              final imagePath = state.extra as String? ?? '';
-              return const CreatePostScreen();
-              // return CreatePostScreen(imagePath: imagePath);
-            },
-          ),
-        ],
+      ),
+      GoRoute(
+        path: '/camera/createPost',
+        builder: (context, state) => const CreatePostScreen(),
       ),
 
       // Admin Router

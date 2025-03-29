@@ -56,7 +56,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     // [대신 더미 경로를 넘기기]
     // const dummyPath = 'assets/images/dash/appLogo.png';
-    context.go('/camera/createPost'); // <-- 절대 경로
+    context.pushReplacement('/camera/createPost'); // <-- 절대 경로
   }
 
   @override
@@ -120,8 +120,8 @@ class _CameraScreenState extends State<CameraScreen> {
           children: [
             IconButton(
               icon: const Icon(Icons.favorite_border, size: 30),
-              onPressed: () =>
-                  context.go('/', extra: 0), // 🏠 "구경하기" 클릭 시 인덱스 0 전달
+              onPressed: () => context.pushReplacement('/',
+                  extra: 0), // 🏠 "구경하기" 클릭 시 인덱스 0 전달
             ),
             const SizedBox(width: 20),
             GestureDetector(
@@ -139,8 +139,8 @@ class _CameraScreenState extends State<CameraScreen> {
             const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.restaurant_menu, size: 30),
-              onPressed: () =>
-                  context.go('/', extra: 1), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
+              onPressed: () => context.pushReplacement('/',
+                  extra: 1), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
             ),
           ],
         ),
@@ -148,10 +148,10 @@ class _CameraScreenState extends State<CameraScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _bottomNavButton(
-                Icons.image, "사진첩", () => context.go('/', extra: 2)), // 🖼️ 사진첩
+            _bottomNavButton(Icons.image, "사진첩",
+                () => context.pushReplacement('/', extra: 2)), // 🖼️ 사진첩
             _bottomNavButton(Icons.person_outline, "마이메뉴",
-                () => context.go('/', extra: 3)), // 👤 마이메뉴
+                () => context.pushReplacement('/', extra: 3)), // 👤 마이메뉴
           ],
         ),
       ],
