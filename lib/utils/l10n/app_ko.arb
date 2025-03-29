@@ -41,6 +41,7 @@
     "errorCode_auth006": "존재하지 않는 닉네임입니다.",
     "errorCode_auth007": "비밀번호가 틀렸습니다.",
     "errorCode_auth008": "토큰이 누락되었습니다.",
+    "errorCode_auth009": "토큰이 만료되었습니다.",
 
     "errorCode_user001": "존재하지않는 유저입니다.",
 
@@ -112,5 +113,31 @@
     "order_details_icon": "주문 내역",
     "placement_of_the_table": "테이블 배치",
     "admin_menu": "관리자 메뉴",
-    "sample_restaurant_name": "정우네 왕고집"
+    "sample_restaurant_name": "정우네 왕고집",
+
+    "explore_screen_title": "구경하기",
+    "explore_screen_empty_message": "초대한 사람들의 게시글이 없습니다.",
+    "explore_screen_post_author": "작성자: {userId}",
+    "explore_screen_error_message": "게시물을 불러오는데 실패했습니다.",
+
+    "meal_log_screen_title": "나의 식사 기록",
+    "meal_log_screen_empty_message": "아직 작성한 게시글이 없습니다.",
+    "meal_log_screen_post_date": "작성일: {date}",
+    "meal_log_screen_error_message": "게시물을 불러오는데 실패했습니다.",
+
+    "mymenu_screen_title": "내 메뉴",
+    "mymenu_tab_invited_by_me": "내가 초대한 사람",
+    "mymenu_tab_invited_me": "나를 초대한 사람",
+    "mymenu_empty_invited_by_me": "아직 초대한 사람이 없습니다.",
+    "mymenu_empty_invited_me": "아직 나를 초대한 사람이 없습니다.",
+    "mymenu_error_message": "데이터를 불러오는데 실패했습니다.",
+    "mymenu_delete_confirm_title": "초대 삭제",
+    "mymenu_delete_confirm_message": "이 초대를 삭제하시겠습니까?",
+    "mymenu_cancel": "취소",
+    "mymenu_delete": "삭제",
+
+    "main_screen_camera": "카메라",
+    "main_screen_explore": "구경하기",
+    "main_screen_meal_log": "사진첩",
+    "main_screen_my_menu": "마이메뉴"
 }
