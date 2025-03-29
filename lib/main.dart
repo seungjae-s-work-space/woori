@@ -10,13 +10,7 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 가로 모드 고정 설정 추가
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.landscapeLeft,
-  //   DeviceOrientation.landscapeRight,
-  // ]).then((_) {
   runApp(const ProviderScope(child: MyApp()));
-  // });
 }
 
 class MyApp extends ConsumerWidget {

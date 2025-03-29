@@ -40,6 +40,25 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
+  Future<void> _takePhoto() async {
+    // [시뮬레이터 테스트용]
+    // 카메라 초기화/촬영 로직 잠시 주석 처리
+    // if (_controller == null || !_controller!.value.isInitialized) {
+    //   return;
+    // }
+    // try {
+    //   final picture = await _controller!.takePicture();
+    //   if (!mounted) return;
+    //   context.go('createPost', extra: picture.path);
+    // } catch (e) {
+    //   debugPrint("사진 찍기 실패: $e");
+    // }
+
+    // [대신 더미 경로를 넘기기]
+    // const dummyPath = 'assets/images/dash/appLogo.png';
+    context.go('/camera/createPost'); // <-- 절대 경로
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +125,7 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
             const SizedBox(width: 20),
             GestureDetector(
-              onTap: () => print("사진 촬영"), // 촬영 버튼은 그대로 유지
+              onTap: () => _takePhoto(), // 촬영 버튼은 그대로 유지
               child: Container(
                 width: 80,
                 height: 80,
