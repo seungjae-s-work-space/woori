@@ -13,6 +13,15 @@ class DashScreen extends ConsumerWidget {
     ref.listen(userProfileProvider, (previous, next) {
       if (next.userModel != null) {
         context.go('/camera');
+      } else if (next.error == 'TOKEN_EXPIRED') {
+        // 토큰 만료시 로그인 페이지로 이동
+        context.go('/login');
+        // 선택적: 토스트 메시지나 스낵바로 사용자에게 알림
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('로그인이 만료되었습니다. 다시 로그인해주세요.'),
+          ),
+        );
       }
     });
 

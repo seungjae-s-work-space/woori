@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:woori/data/rest_api_client/rest_api_client.dart';
 import 'package:woori/data/secure_storage/secure_storage_repository.dart';
 import 'package:woori/dto/update_user_info_dto.dart';
+import 'package:woori/models/api_error_response_model.dart';
 import 'package:woori/models/user_model.dart';
 import 'package:woori/utils/talker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 
 /*
   토큰을 사용해 유저정보를 요청하고 가져온 유저를 업데이트 해줍니다.
@@ -28,6 +30,7 @@ final userProfileProvider =
 class UserProfileNotifier extends StateNotifier<UserProfileState> {
   UserProfileNotifier(this._apiClient, this._secureStorage)
       : super(UserProfileState()) {
+    print('UserProfileNotifier');
     getUser();
   }
   final RestApiClient _apiClient;
@@ -35,21 +38,38 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
 
   Future<void> getUser() async {
     try {
+      print('getUser');
       final token = await _secureStorage.readString('token');
+      print('token: $token');
       if (token != null) {
         final Map<String, dynamic> response =
             await _apiClient.get('user/get-user', {});
 
         talkerInfo('GetUserNotifier(getUser1)', jsonEncode(response));
-
         state =
             UserProfileState(userModel: UserModel.fromJson(response['data']));
-
         talkerInfo('GetUserNotifier(getUser)', state.userModel.toString());
       } else {
         state = UserProfileState();
       }
     } catch (e) {
+      if (e is DioException) {
+        final errorResponse = e.error as ApiErrorResponseModel;
+        if (errorResponse.errorCode == 'errorCode_auth009') {
+          await _secureStorage.deleteString('token');
+          state = state.copyWith(
+            error: 'TOKEN_EXPIRED',
+            userModel: null,
+          );
+          return;
+        }
+      }
+
+      talkerError('GetUserNotifier(getUser)', '유저 정보 가져오기 실패', e);
+      state = state.copyWith(
+        error: e.toString(),
+        userModel: null,
+      );
       rethrow;
     }
   }
@@ -86,16 +106,24 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
 }
 
 class UserProfileState {
-  UserProfileState({this.userModel, this.isLoading = false});
+  UserProfileState({
+    this.userModel,
+    this.isLoading = false,
+    this.error,
+  });
+
   UserModel? userModel;
   bool isLoading;
+  String? error; // 에러 메시지 추가
 
   UserProfileState copyWith({
     UserModel? userModel,
     bool? isLoading,
+    String? error,
   }) =>
       UserProfileState(
         userModel: userModel ?? this.userModel,
         isLoading: isLoading ?? this.isLoading,
+        error: error ?? this.error,
       );
 }
