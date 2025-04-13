@@ -41,7 +41,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _takePhoto() async {
-    // [시뮬레이터 테스트용]
+    // [시뮬레이터 테스트용]  ////디비 photo 활성화 해야함.
     // 카메라 초기화/촬영 로직 잠시 주석 처리
     // if (_controller == null || !_controller!.value.isInitialized) {
     //   return;
@@ -151,7 +151,7 @@ class _CameraScreenState extends State<CameraScreen> {
             _bottomNavButton(Icons.image, "사진첩",
                 () => context.pushReplacement('/', extra: 2)), // 🖼️ 사진첩
             _bottomNavButton(Icons.person_outline, "마이메뉴",
-                () => context.pushReplacement('/', extra: 3)), // 👤 마이메뉴
+                () => context.pushReplacement('/', extra: 2)), // 👤 마이메뉴
           ],
         ),
       ],

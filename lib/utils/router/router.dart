@@ -19,7 +19,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) {
+          final index = state.extra as int? ?? 0;
+          return MainScreen(extra: index);
+        },
       ),
 
       // Auth Router
@@ -57,82 +60,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/camera/createPost',
         builder: (context, state) => const CreatePostScreen(),
       ),
-
-      // Admin Router
-      // GoRoute(
-      //     path: '/admin',
-      //     builder: (context, state) =>
-      //         const AdminDashboardScreen(), //AdminDashboardScreen(),
-      //     routes: [
-      //       GoRoute(
-      //         path: '/menus',
-      //         builder: (context, state) => const AdminMenuListScreen(),
-      //         routes: [
-      //           GoRoute(
-      //             path: '/add',
-      //             builder: (context, state) => const AdminMenuAppendScreen(),
-      //           ),
-      //           GoRoute(
-      //             path: '/categories',
-      //             builder: (context, state) =>
-      //                 const AdminMenuCategoryListScreen(),
-      //           ),
-      //           GoRoute(
-      //             path: '/soldout',
-      //             builder: (context, state) =>
-      //                 const AdminMenuSoldoutListScreen(),
-      //           ),
-      //           GoRoute(
-      //             path: '/statics',
-      //             builder: (context, state) => const AdminMenuStaticsScreen(),
-      //           )
-      //         ],
-      //       ),
-      //       GoRoute(
-      //           path: '/tables',
-      //           builder: (context, state) => const AdminTableListScreen(),
-      //           routes: [
-      //             GoRoute(
-      //               path: '/add',
-      //               builder: (context, state) => const AdminTableAppendScreen(),
-      //             ),
-      //           ]),
-      //       GoRoute(
-      //         path: '/orders',
-      //         builder: (context, state) => const AdminOrderListScreen(),
-      //       ),
-      //       GoRoute(
-      //         path: '/settings',
-      //         builder: (context, state) => const AdminSettingListScreen(),
-      //       ),
-      //     ]),
-
-      // Account Router
-
-      // Menu Router
-      // GoRoute(
-      //   path: '/menu',
-      //   builder: (context, state) => const MenuScreen(),
-      //   routes: [
-      //     GoRoute(
-      //       path: '/add',
-      //       builder: (context, state) => const AddMenuScreen(),
-      //     ),
-      //   ],
-      // ),
-
-      // Order Router
-      // GoRoute(
-      //   path: '/order',
-      //   builder: (context, state) => const OrderManagementScreen(),
-      // ),
     ],
   );
 });
-
-/**
- * 로그인으로 가는 페이지
- * 로그인 페이지
- * 카메라 페이지
- *
- */
