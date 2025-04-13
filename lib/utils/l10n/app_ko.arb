@@ -139,5 +139,13 @@
     "main_screen_camera": "카메라",
     "main_screen_explore": "구경하기",
     "main_screen_meal_log": "사진첩",
-    "main_screen_my_menu": "마이메뉴"
+    "main_screen_my_menu": "마이메뉴",
+
+    "mymenu_invite_code_title": "초대 코드 입력",
+    "mymenu_invite_code_hint": "초대 코드를 입력하세요",
+    "mymenu_accept": "수락",
+    "mymenu_invite_code_success": "초대 코드가 성공적으로 적용되었습니다",
+    "mymenu_invite_code_error": "초대 코드 적용에 실패했습니다",
+    "mymenu_enter_invite_code": "초대 코드 입력하기"
+
 }

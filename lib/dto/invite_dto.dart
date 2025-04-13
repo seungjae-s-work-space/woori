@@ -26,11 +26,12 @@ class InviteListResponseDto with _$InviteListResponseDto {
 }
 
 @freezed
-class InviteLinkResponseDto with _$InviteLinkResponseDto {
-  const factory InviteLinkResponseDto({
-    required String inviteUrl,
-  }) = _InviteLinkResponseDto;
+class InviteCodeResponseDto with _$InviteCodeResponseDto {
+  const factory InviteCodeResponseDto({
+    required String code,
+    required DateTime expiresAt,
+  }) = _InviteCodeResponseDto;
 
-  factory InviteLinkResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$InviteLinkResponseDtoFromJson(json);
+  factory InviteCodeResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$InviteCodeResponseDtoFromJson(json);
 }

@@ -4,69 +4,99 @@ import 'package:woori/dto/invite_dto.dart';
 import 'package:woori/utils/talker.dart';
 import 'package:share_plus/share_plus.dart';
 
-final inviteProvider =
-    StateNotifierProvider<InviteNotifier, AsyncValue<InviteListResponseDto>>(
-        (ref) {
-  final apiClient = ref.read(restApiClientProvider);
-  return InviteNotifier(apiClient);
-});
+/// "내가 초대한 사람" 목록을 전담
+final invitesFromMeProvider = StateNotifierProvider<InvitesFromMeNotifier,
+    AsyncValue<InviteListResponseDto>>(
+  (ref) => InvitesFromMeNotifier(ref.watch(restApiClientProvider)),
+);
 
-class InviteNotifier extends StateNotifier<AsyncValue<InviteListResponseDto>> {
-  InviteNotifier(this._apiClient) : super(const AsyncValue.loading());
+/// "나를 초대한 사람" 목록을 전담
+final invitesToMeProvider = StateNotifierProvider<InvitesToMeNotifier,
+    AsyncValue<InviteListResponseDto>>(
+  (ref) => InvitesToMeNotifier(ref.watch(restApiClientProvider)),
+);
 
+/// "내가 초대한 사람" Notifier
+class InvitesFromMeNotifier
+    extends StateNotifier<AsyncValue<InviteListResponseDto>> {
   final RestApiClient _apiClient;
 
-  Future<void> loadInvitesFromMe() async {
+  InvitesFromMeNotifier(this._apiClient) : super(const AsyncValue.loading()) {
+    loadFromMe(); // 생성자에서 바로 불러옴
+  }
+
+  Future<void> loadFromMe() async {
     try {
       state = const AsyncValue.loading();
       final response = await _apiClient.get('invite/from-me', {});
       final inviteResponse = InviteListResponseDto.fromJson(response['data']);
       state = AsyncValue.data(inviteResponse);
-    } catch (e) {
-      talkerError('invite_provider', '내가 초대한 사람 목록 조회 실패', e);
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, st) {
+      talkerError('InvitesFromMeNotifier', '내가 초대한 사람 목록 조회 실패', e);
+      state = AsyncValue.error(e, st);
     }
   }
 
-  Future<void> loadInvitesToMe() async {
+  /// 예: 내가 초대코드 생성하려면?
+  Future<void> createInviteCode() async {
+    try {
+      final response = await _apiClient.post('invite/code', {});
+      final inviteCodeResponse =
+          InviteCodeResponseDto.fromJson(response['data']);
+      final inviteCode = inviteCodeResponse.code;
+
+      // 공유
+      await Share.share(
+        inviteCode,
+        subject: '우리 앱 초대 코드',
+      );
+    } catch (e) {
+      talkerError('InvitesFromMeNotifier', '초대 코드 생성 실패', e);
+      rethrow;
+    }
+  }
+
+  /// 초대를 삭제한 뒤, 다시 fromMe 목록만 새로고침
+  Future<void> deleteInvite(String inviteId) async {
+    try {
+      await _apiClient.delete('invite/$inviteId', {});
+      await loadFromMe();
+    } catch (e) {
+      talkerError('InvitesFromMeNotifier', '초대 삭제 실패', e);
+      rethrow;
+    }
+  }
+}
+
+/// "나를 초대한 사람" Notifier
+class InvitesToMeNotifier
+    extends StateNotifier<AsyncValue<InviteListResponseDto>> {
+  final RestApiClient _apiClient;
+
+  InvitesToMeNotifier(this._apiClient) : super(const AsyncValue.loading()) {
+    loadToMe();
+  }
+
+  Future<void> loadToMe() async {
     try {
       state = const AsyncValue.loading();
       final response = await _apiClient.get('invite/to-me', {});
       final inviteResponse = InviteListResponseDto.fromJson(response['data']);
       state = AsyncValue.data(inviteResponse);
-    } catch (e) {
-      talkerError('invite_provider', '나를 초대한 사람 목록 조회 실패', e);
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, st) {
+      talkerError('InvitesToMeNotifier', '나를 초대한 사람 목록 조회 실패', e);
+      state = AsyncValue.error(e, st);
     }
   }
 
-  Future<void> createInviteLink() async {
+  /// 초대코드 수락 (toMe 목록 업데이트)
+  Future<void> acceptInviteCode(String code) async {
     try {
-      final response = await _apiClient.post('invite/invite-link', {});
-      final inviteLinkResponse =
-          InviteLinkResponseDto.fromJson(response['data']);
-
-      try {
-        await Share.share(
-          inviteLinkResponse.inviteUrl,
-          subject: '우리 앱 초대 링크',
-        );
-      } catch (shareError) {
-        talkerError('invite_provider', '공유 기능 실행 실패', shareError);
-        // 공유 실패 시에도 초대 링크는 생성되었으므로 에러를 던지지 않습니다
-      }
+      await _apiClient.post('invite/code/accept', {'code': code});
+      // 다시 "나를 초대한 사람" 목록만 새로고침
+      await loadToMe();
     } catch (e) {
-      talkerError('invite_provider', '초대 링크 생성 실패', e);
-      rethrow;
-    }
-  }
-
-  Future<void> deleteInvite(String inviteId) async {
-    try {
-      await _apiClient.delete('invite/$inviteId', {});
-      await loadInvitesFromMe(); // 목록 새로고침
-    } catch (e) {
-      talkerError('invite_provider', '초대 삭제 실패', e);
+      talkerError('InvitesToMeNotifier', '초대 코드 수락 실패', e);
       rethrow;
     }
   }

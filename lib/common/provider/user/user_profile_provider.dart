@@ -112,9 +112,9 @@ class UserProfileState {
     this.error,
   });
 
-  UserModel? userModel;
-  bool isLoading;
-  String? error; // 에러 메시지 추가
+  final UserModel? userModel;
+  final bool isLoading;
+  final String? error;
 
   UserProfileState copyWith({
     UserModel? userModel,
