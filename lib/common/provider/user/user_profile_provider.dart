@@ -46,8 +46,12 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
             await _apiClient.get('user/get-user', {});
 
         talkerInfo('GetUserNotifier(getUser1)', jsonEncode(response));
-        state =
-            UserProfileState(userModel: UserModel.fromJson(response['data']));
+        state = UserProfileState(
+          userModel: UserModel.fromJson(response['data']),
+          isLoading: false, // ← 끝
+          error: null,
+        );
+        print('eeeedddd ${UserModel.fromJson(response['data'])}');
         talkerInfo('GetUserNotifier(getUser)', state.userModel.toString());
       } else {
         state = UserProfileState();

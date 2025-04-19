@@ -4,6 +4,7 @@ import 'package:woori/feature/mymenu/provider/invite_provider.dart';
 import 'package:woori/utils/localization_extension.dart';
 import 'package:woori/common/provider/user/user_profile_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:woori/feature/auth/logout/provider/logout_provider.dart';
 
 class MyMenuScreen extends ConsumerStatefulWidget {
   const MyMenuScreen({super.key});
@@ -18,6 +19,15 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userState = ref.read(userProfileProvider);
+      if (userState.userModel == null &&
+          !userState.isLoading &&
+          userState.error == null) {
+        ref.read(userProfileProvider.notifier).getUser();
+      }
+    });
   }
 
   @override
@@ -81,6 +91,10 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
     final userProfileState = ref.watch(userProfileProvider);
     final fromMeAsync = ref.watch(invitesFromMeProvider);
     final toMeAsync = ref.watch(invitesToMeProvider);
+    // 디버깅용 출력
+    print('User Profile State: ${userProfileState.userModel}');
+    print('Is Loading: ${userProfileState.isLoading}');
+    print('Error: ${userProfileState.error}');
 
     return Scaffold(
       body: SafeArea(
@@ -137,8 +151,11 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.logout),
-                            onPressed: () {
-                              context.go('/login');
+                            onPressed: () async {
+                              await ref.read(logoutProvider.notifier).logout();
+
+                              // ❷ 모든 화면 스택 제거 후 로그인 화면으로
+                              if (mounted) context.go('/dash');
                             },
                           ),
                         ],

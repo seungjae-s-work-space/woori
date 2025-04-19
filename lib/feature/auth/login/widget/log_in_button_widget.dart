@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:woori/common/provider/user/user_profile_provider.dart';
 import 'package:woori/dto/login_dto.dart';
 import 'package:woori/feature/auth/login/provider/login_provider.dart';
 import 'package:woori/utils/dialog/panara_dialog.dart';
@@ -53,6 +54,7 @@ class LogInButton extends ConsumerWidget {
 
               if (context.mounted) {
                 print('good');
+                await ref.read(userProfileProvider.notifier).getUser();
                 await context.push('/camera');
               }
             } on DioException catch (e) {
