@@ -66,6 +66,7 @@ dependencies:
   talker: ^4.5.4
   camera: ^0.11.1
   share_plus: ^10.1.4
+  flutter_phoenix: ^1.1.1
 
 
 dev_dependencies:
