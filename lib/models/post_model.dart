@@ -23,6 +23,7 @@ class PostModel with _$PostModel {
 class UserModel with _$UserModel {
   const factory UserModel({
     required String nickname,
+    required String id,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

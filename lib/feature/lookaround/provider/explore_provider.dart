@@ -41,16 +41,20 @@ class ExplorePostsNotifier extends StateNotifier<AsyncValue<List<PostModel>>> {
       final exploreResponse = ExploreResponseDto.fromJson(response['data']);
       final List<PostModel> newPosts = exploreResponse.posts;
 
+      print('📦 받아온 게시물: ${newPosts.length}');
+
       _hasMore = newPosts.length >= _limit;
       _currentPage++;
 
-      state.whenData((currentPosts) {
-        state = AsyncValue.data(
-            refresh ? newPosts : [...currentPosts, ...newPosts]);
-      });
-    } catch (e) {
+      if (refresh) {
+        state = AsyncValue.data(newPosts);
+      } else {
+        final prevPosts = state.value ?? [];
+        state = AsyncValue.data([...prevPosts, ...newPosts]);
+      }
+    } catch (e, st) {
       talkerError('explore_provider', '게시물 목록 조회 실패', e);
-      state = AsyncValue.error(e, StackTrace.current);
+      state = AsyncValue.error(e, st);
     } finally {
       _isLoading = false;
     }

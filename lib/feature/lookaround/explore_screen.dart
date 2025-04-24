@@ -24,11 +24,12 @@ class ExploreScreen extends ConsumerWidget {
                 child: Text(context.l10n.explore_screen_empty_message),
               );
             }
+
             return ListView.builder(
               itemCount: posts.length + 1,
               itemBuilder: (context, index) {
                 if (index == posts.length) {
-                  return _buildLoadingIndicator(ref);
+                  return SizedBox();
                 }
                 final post = posts[index];
                 return ListTile(
@@ -51,13 +52,6 @@ class ExploreScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildLoadingIndicator(WidgetRef ref) {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Center(child: CircularProgressIndicator()),
     );
   }
 
