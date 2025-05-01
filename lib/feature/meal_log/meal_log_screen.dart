@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:woori/feature/meal_log/provider/meal_log_provider.dart';
 import 'package:woori/utils/localization_extension.dart';
 
@@ -13,6 +14,14 @@ class MealLogScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.meal_log_screen_title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              context.go('/camera');
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () => ref.read(mealLogPostsProvider.notifier).loadPosts(),

@@ -148,10 +148,15 @@ class _CameraScreenState extends State<CameraScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _bottomNavButton(Icons.image, "사진첩",
-                () => context.pushReplacement('/', extra: 2)), // 🖼️ 사진첩
-            _bottomNavButton(Icons.person_outline, "마이메뉴",
-                () => context.pushReplacement('/', extra: 2)), // 👤 마이메뉴
+            IconButton(
+              icon: const Icon(Icons.person_outline, size: 30),
+              onPressed: () => context.pushReplacement('/',
+                  extra: 2), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
+            ),
+            // _bottomNavButton(Icons.image, "사진첩",
+            //     () => context.pushReplacement('/', extra: 2)), // 🖼️ 사진첩
+            // _bottomNavButton(Icons.person_outline, "마이메뉴",
+            //     () => context.pushReplacement('/', extra: 2)), // 👤 마이메뉴
           ],
         ),
       ],
