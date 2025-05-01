@@ -146,6 +146,33 @@
     "mymenu_accept": "수락",
     "mymenu_invite_code_success": "초대 코드가 성공적으로 적용되었습니다",
     "mymenu_invite_code_error": "초대 코드 적용에 실패했습니다",
-    "mymenu_enter_invite_code": "초대 코드 입력하기"
+    "mymenu_enter_invite_code": "초대 코드 입력하기",
+
+    "view_details": "자세히 보기",
+    "add_comment_title": "댓글 추가",
+    "submit_button": "확인",
+    "comment_add_success_message": "댓글이 추가되었습니다",
+    "retry_button": "재시도",
+    "like_error_message": "좋아요에러",
+    "write_comment_hint": "댓글힌트",
+    "cancel_button": "취소",
+    "comment_add_error_message": "코멘트 에러메세지",
+    "unknown_user": "모르는사람",
+    "my_post_badge": "내 게시글",
+    "likes_label": "좋아요",
+    "comments_count_label": "로그열기",
+    "show_comments": "댓글 보기",
+    "hide_comments": "댓글 접기",
+    "comments_load_error_message": "코멘트 로드 에러",
+    "no_comments_message": "노코멘트에러",
+    "my_post_badge": "내 게시글",
+    "activity_logs_count": "{count}개의 로그",
+    "no_activity_logs": "활동 기록이 없습니다",
+    "activity_logs_load_error_message": "활동 기록을 불러오는 중 오류가 발생했습니다",
+    "activity_comment_text": "님이 댓글을 남겼습니다",
+    "activity_like_text": "님이 좋아요를 눌렀습니다"
+
+
+
 
 }

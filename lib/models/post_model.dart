@@ -8,11 +8,14 @@ class PostModel with _$PostModel {
   const factory PostModel({
     required String id,
     required String userId,
-    String? imageUrl,
     required String content,
+    String? imageUrl,
     required DateTime createdAt,
     required DateTime updatedAt,
-    UserModel? user, // explore API에서만 사용
+    UserModel? user,
+    @Default(false) bool isLiked,
+    @Default(0) int likeCount,
+    @Default(0) int commentCount,
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
