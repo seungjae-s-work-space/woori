@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/feature/lookaround/provider/explore_provider.dart';
 import 'package:woori/feature/lookaround/widget/post_card.dart';
+import 'package:woori/utils/appbar/app_bar.dart';
 import 'package:woori/utils/localization_extension.dart';
 
 class ExploreScreen extends ConsumerWidget {
@@ -12,9 +13,8 @@ class ExploreScreen extends ConsumerWidget {
     final postsAsync = ref.watch(explorePostsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.explore_screen_title),
-      ),
+      backgroundColor: Colors.white,
+      appBar: buildAppBarContent(context, 1, context.l10n.look_around),
       body: RefreshIndicator(
         onRefresh: () =>
             ref.read(explorePostsProvider.notifier).loadPosts(refresh: true),

@@ -170,7 +170,10 @@
     "no_activity_logs": "활동 기록이 없습니다",
     "activity_logs_load_error_message": "활동 기록을 불러오는 중 오류가 발생했습니다",
     "activity_comment_text": "님이 댓글을 남겼습니다",
-    "activity_like_text": "님이 좋아요를 눌렀습니다"
+    "activity_like_text": "님이 좋아요를 눌렀습니다",
+    "look_around": "구경하기",
+    "meal_log": "식사기록",
+    "my_menu":"마이메뉴"
 
 
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/feature/mymenu/provider/invite_provider.dart';
+import 'package:woori/utils/appbar/app_bar.dart';
 import 'package:woori/utils/localization_extension.dart';
 import 'package:woori/common/provider/user/user_profile_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -97,6 +98,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
     print('Error: ${userProfileState.error}');
 
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: buildAppBarContent(context, 1, context.l10n.my_menu),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -122,9 +125,9 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                               userProfileState.userModel!.nickname[0]
                                   .toUpperCase(),
                               style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff98C4E5)),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -135,9 +138,9 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                                 Text(
                                   userProfileState.userModel!.nickname,
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff98C4E5)),
                                 ),
                                 Text(
                                   userProfileState.userModel!.email,
@@ -170,9 +173,13 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton.icon(
                   onPressed: _showInviteCodeDialog,
-                  icon: const Icon(Icons.add),
-                  label: Text(context.l10n.mymenu_enter_invite_code),
+                  icon: const Icon(Icons.add, color: Color(0xff98C4E5)),
+                  label: Text(
+                    context.l10n.mymenu_enter_invite_code,
+                    style: TextStyle(color: Color(0xff98C4E5)),
+                  ),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white70,
                     minimumSize: const Size(double.infinity, 48),
                   ),
                 ),
@@ -211,6 +218,7 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                             itemBuilder: (context, index) {
                               final invite = data.invites[index];
                               return Card(
+                                color: Colors.grey[300],
                                 margin: const EdgeInsets.only(right: 8),
                                 child: Container(
                                   width: 150,
@@ -224,8 +232,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                                           invite.toUser.nickname[0]
                                               .toUpperCase(),
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xff98C4E5)),
                                         ),
                                       ),
                                       const SizedBox(height: 8),
@@ -292,6 +300,7 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                             itemBuilder: (context, index) {
                               final invite = data.invites[index];
                               return Card(
+                                color: Colors.grey[300],
                                 margin: const EdgeInsets.only(right: 8),
                                 child: Container(
                                   width: 150,
@@ -305,8 +314,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                                           invite.fromUser.nickname[0]
                                               .toUpperCase(),
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xff98C4E5)),
                                         ),
                                       ),
                                       const SizedBox(height: 8),

@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:woori/utils/image_generated/assets.gen.dart';
+import 'package:woori/utils/localization_extension.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -71,18 +73,18 @@ class _CameraScreenState extends State<CameraScreen> {
             )
           else
             Positioned.fill(
-              child: Container(color: Colors.black), // 카메라 미초기화 시 검은 화면
+              child: Container(color: Colors.white), // 카메라 미초기화 시 검은 화면
             ),
 
           // 🔘 상단 비율 선택 버튼
           Positioned(
             top: 50,
-            left: MediaQuery.of(context).size.width / 2 - 50,
+            left: MediaQuery.of(context).size.width / 2,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -113,60 +115,99 @@ class _CameraScreenState extends State<CameraScreen> {
 
   /// 📸 촬영 버튼 및 네비게이션 버튼 UI
   Widget _bottomButtons(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.favorite_border, size: 30),
-              onPressed: () => context.pushReplacement('/',
-                  extra: 0), // 🏠 "구경하기" 클릭 시 인덱스 0 전달
-            ),
-            const SizedBox(width: 20),
-            GestureDetector(
-              onTap: () => _takePhoto(), // 촬영 버튼은 그대로 유지
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey.shade800,
-                  border: Border.all(color: Colors.white, width: 4),
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.favorite_border, size: 50),
+                    onPressed: () => context.pushReplacement('/',
+                        extra: 0), // 🏠 "구경하기" 클릭 시 인덱스 0 전달
+                  ),
+                  Text(context.l10n.look_around)
+                ],
               ),
+              Container(
+                width: 90,
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey.shade800),
+              ),
+              Assets.images.dash.flowerCharacter.image(
+                // 그냥 빈자리, 기능 추가하거나 화면 바꾸자.
+                width: 50,
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () => _takePhoto(), // 촬영 버튼은 그대로 유지
+            child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade800,
+                    border: Border.all(color: Colors.white, width: 3),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 20),
-            IconButton(
-              icon: const Icon(Icons.restaurant_menu, size: 30),
-              onPressed: () => context.pushReplacement('/',
-                  extra: 1), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.person_outline, size: 30),
-              onPressed: () => context.pushReplacement('/',
-                  extra: 2), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
-            ),
-            // _bottomNavButton(Icons.image, "사진첩",
-            //     () => context.pushReplacement('/', extra: 2)), // 🖼️ 사진첩
-            // _bottomNavButton(Icons.person_outline, "마이메뉴",
-            //     () => context.pushReplacement('/', extra: 2)), // 👤 마이메뉴
-          ],
-        ),
-      ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.restaurant_menu, size: 50),
+                    onPressed: () => context.pushReplacement('/',
+                        extra: 1), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
+                  ),
+                  Text(context.l10n.meal_log)
+                ],
+              ),
+              Container(
+                width: 90,
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey.shade800),
+              ),
+              Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.person_outline, size: 50),
+                    onPressed: () => context.pushReplacement('/',
+                        extra: 2), // 🍽️ "식사 기록" 클릭 시 인덱스 1 전달
+                  ),
+                  Text(context.l10n.my_menu)
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   /// 🔘 1:1, 3:4 버튼 UI
   Widget _ratioButton(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 3),
       child: TextButton(
         onPressed: () => print("$text 선택"),
         style: TextButton.styleFrom(

@@ -26,6 +26,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: _currentIndex,
         children: const [
@@ -36,6 +37,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: const Color(0xff98C4E5),
+        backgroundColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -45,15 +48,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.explore),
+            icon: const Icon(Icons.favorite_border, color: Color(0xff98C4E5)),
             label: context.l10n.main_screen_explore,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.photo_library),
-            label: context.l10n.main_screen_meal_log,
+            icon: const Icon(
+              Icons.restaurant_outlined,
+              color: Color(0xff98C4E5),
+            ),
+            label: context.l10n.meal_log,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.person_outline, color: Color(0xff98C4E5)),
             label: context.l10n.main_screen_my_menu,
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:woori/feature/meal_log/provider/meal_log_provider.dart';
 import 'package:woori/feature/meal_log/widget/my_post_card.dart';
+import 'package:woori/utils/appbar/app_bar.dart';
 import 'package:woori/utils/localization_extension.dart';
 
 class MealLogScreen extends ConsumerWidget {
@@ -13,17 +14,8 @@ class MealLogScreen extends ConsumerWidget {
     final postsAsync = ref.watch(mealLogPostsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.meal_log_screen_title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              context.go('/camera');
-            },
-          ),
-        ],
-      ),
+      backgroundColor: Colors.white,
+      appBar: buildAppBarContent(context, 1, context.l10n.meal_log, index: 0),
       body: RefreshIndicator(
         onRefresh: () => ref.read(mealLogPostsProvider.notifier).loadPosts(),
         child: postsAsync.when(

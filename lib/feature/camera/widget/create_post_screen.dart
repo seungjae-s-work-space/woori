@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -54,18 +56,29 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('새 게시물 작성'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.restart_alt),
+          onPressed: () {
+            context.go('/camera');
+          },
+        ),
       ),
       body: Column(
         children: [
           // 사진 미리보기
-          // Expanded(
-          //   child: Image.file(
-          //     File(widget.imagePath),
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
+          Expanded(
+              child: Container(
+            height: 160,
+            color: Colors.grey[300],
+          )
+              // Image.file(
+              //   File(widget.imagePath),
+              //   fit: BoxFit.cover,
+              // ),
+              ),
 
           // 텍스트 입력
           Padding(
@@ -81,12 +94,25 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           ),
 
           // 등록 버튼
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
-              onPressed: _onSubmit,
-              child: const Text('등록하기'),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () => context.go('/camera'),
+                  child: const Text('취소하기'),
+                ),
+              ),
+              SizedBox(width: 30),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: _onSubmit,
+                  child: const Text('등록하기'),
+                ),
+              ),
+            ],
           )
         ],
       ),
