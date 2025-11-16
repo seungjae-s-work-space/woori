@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/feature/lookaround/explore_screen.dart';
 import 'package:woori/feature/mymenu/mymenu_screen.dart';
 import 'package:woori/feature/meal_log/meal_log_screen.dart';
+import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/localization_extension.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
@@ -26,43 +27,57 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.backgroundWhite,
       body: IndexedStack(
         index: _currentIndex,
         children: const [
           ExploreScreen(),
           MealLogScreen(),
           MyMenuScreen(),
-          // MyMenuScreen(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        fixedColor: const Color(0xff98C4E5),
-        backgroundColor: Colors.white,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite_border, color: Color(0xff98C4E5)),
-            label: context.l10n.main_screen_explore,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.restaurant_outlined,
-              color: Color(0xff98C4E5),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: AppTheme.backgroundWhite,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x1A000000),
+              blurRadius: 12,
+              offset: Offset(0, -2),
             ),
-            label: context.l10n.meal_log,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person_outline, color: Color(0xff98C4E5)),
-            label: context.l10n.main_screen_my_menu,
-          ),
-        ],
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                _currentIndex == 0 ? Icons.favorite : Icons.favorite_border,
+              ),
+              label: context.l10n.main_screen_explore,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _currentIndex == 1
+                    ? Icons.restaurant
+                    : Icons.restaurant_outlined,
+              ),
+              label: context.l10n.meal_log,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _currentIndex == 2 ? Icons.person : Icons.person_outline,
+              ),
+              label: context.l10n.main_screen_my_menu,
+            ),
+          ],
+        ),
       ),
     );
   }

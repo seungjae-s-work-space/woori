@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/feature/mymenu/provider/invite_provider.dart';
+import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/appbar/app_bar.dart';
 import 'package:woori/utils/localization_extension.dart';
 import 'package:woori/common/provider/user/user_profile_provider.dart';
@@ -41,21 +42,72 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(context.l10n.mymenu_invite_code_title),
-        content: TextField(
-          controller: _codeController,
-          decoration: InputDecoration(
-            hintText: context.l10n.mymenu_invite_code_hint,
-            border: const OutlineInputBorder(),
+        backgroundColor: AppTheme.backgroundWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+        ),
+        title: Text(
+          context.l10n.mymenu_invite_code_title,
+          style: AppTheme.heading2.copyWith(
+            fontSize: 18,
           ),
-          textCapitalization: TextCapitalization.characters,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.l10n.mymenu_invite_code_hint,
+              style: AppTheme.body2.copyWith(
+                color: AppTheme.textSecondary,
+              ),
+            ),
+            const SizedBox(height: AppTheme.spacing16),
+            TextField(
+              controller: _codeController,
+              decoration: InputDecoration(
+                hintText: 'ABC123',
+                filled: true,
+                fillColor: AppTheme.backgroundLight,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                  borderSide: const BorderSide(color: AppTheme.border),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                  borderSide: const BorderSide(color: AppTheme.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                  borderSide: const BorderSide(color: AppTheme.primarySky, width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacing16,
+                  vertical: AppTheme.spacing16,
+                ),
+              ),
+              textCapitalization: TextCapitalization.characters,
+              style: AppTheme.body1.copyWith(
+                fontSize: 16,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.textSecondary,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spacing20,
+                vertical: AppTheme.spacing12,
+              ),
+            ),
             child: Text(context.l10n.mymenu_cancel),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () async {
               if (_codeController.text.isNotEmpty) {
                 try {
@@ -66,20 +118,42 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content:
-                              Text(context.l10n.mymenu_invite_code_success)),
+                        content: Text(context.l10n.mymenu_invite_code_success),
+                        backgroundColor: AppTheme.accentGreen,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                        ),
+                      ),
                     );
                   }
                 } catch (e) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text(context.l10n.mymenu_invite_code_error)),
+                        content: Text(context.l10n.mymenu_invite_code_error),
+                        backgroundColor: AppTheme.accentRed,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                        ),
+                      ),
                     );
                   }
                 }
               }
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primarySky,
+              foregroundColor: AppTheme.backgroundWhite,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spacing20,
+                vertical: AppTheme.spacing12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+              ),
+            ),
             child: Text(context.l10n.mymenu_accept),
           ),
         ],
@@ -92,123 +166,162 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
     final userProfileState = ref.watch(userProfileProvider);
     final fromMeAsync = ref.watch(invitesFromMeProvider);
     final toMeAsync = ref.watch(invitesToMeProvider);
-    // 디버깅용 출력
-    print('User Profile State: ${userProfileState.userModel}');
-    print('Is Loading: ${userProfileState.isLoading}');
-    print('Error: ${userProfileState.error}');
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.backgroundGray,
       appBar: buildAppBarContent(context, 1, context.l10n.my_menu),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 내 정보 섹션
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (userProfileState.isLoading)
-                      const Center(child: CircularProgressIndicator())
-                    else if (userProfileState.error != null)
-                      const SizedBox.shrink()
-                    else if (userProfileState.userModel != null)
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.grey[300],
-                            child: Text(
-                              userProfileState.userModel!.nickname[0]
-                                  .toUpperCase(),
-                              style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff98C4E5)),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userProfileState.userModel!.nickname,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xff98C4E5)),
-                                ),
-                                Text(
-                                  userProfileState.userModel!.email,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.logout),
-                            onPressed: () async {
-                              await ref.read(logoutProvider.notifier).logout();
+              const SizedBox(height: AppTheme.spacing16),
 
-                              // ❷ 모든 화면 스택 제거 후 로그인 화면으로
-                              if (mounted) context.go('/dash');
-                            },
-                          ),
-                        ],
-                      ),
-                  ],
+              // 내 정보 섹션
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacing16,
                 ),
+                padding: const EdgeInsets.all(AppTheme.spacing20),
+                decoration: BoxDecoration(
+                  color: AppTheme.backgroundWhite,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                  border: Border.all(
+                    color: AppTheme.border,
+                    width: 1,
+                  ),
+                ),
+                child: userProfileState.isLoading
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(AppTheme.spacing24),
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primarySky,
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      )
+                    : userProfileState.error != null
+                        ? const SizedBox.shrink()
+                        : userProfileState.userModel != null
+                            ? Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 32,
+                                    backgroundColor: AppTheme.primarySkyLight,
+                                    foregroundColor: AppTheme.primarySkyDark,
+                                    child: Text(
+                                      userProfileState.userModel!.nickname[0]
+                                          .toUpperCase(),
+                                      style: AppTheme.heading1.copyWith(
+                                        color: AppTheme.primarySkyDark,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: AppTheme.spacing16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          userProfileState.userModel!.nickname,
+                                          style: AppTheme.heading2.copyWith(
+                                            fontSize: 18,
+                                            color: AppTheme.textPrimary,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          userProfileState.userModel!.email,
+                                          style: AppTheme.body2.copyWith(
+                                            color: AppTheme.textSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.backgroundLight,
+                                      borderRadius: BorderRadius.circular(
+                                          AppTheme.radiusSmall),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.logout,
+                                        color: AppTheme.textSecondary,
+                                      ),
+                                      onPressed: () async {
+                                        await ref
+                                            .read(logoutProvider.notifier)
+                                            .logout();
+                                        if (mounted) context.go('/dash');
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
               ),
-              const Divider(),
+
+              const SizedBox(height: AppTheme.spacing16),
 
               // 초대 코드 입력 버튼
               Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton.icon(
-                  onPressed: _showInviteCodeDialog,
-                  icon: const Icon(Icons.add, color: Color(0xff98C4E5)),
-                  label: Text(
-                    context.l10n.mymenu_enter_invite_code,
-                    style: TextStyle(color: Color(0xff98C4E5)),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white70,
-                    minimumSize: const Size(double.infinity, 48),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacing16,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _showInviteCodeDialog,
+                    icon: const Icon(Icons.add),
+                    label: Text(context.l10n.mymenu_enter_invite_code),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppTheme.primarySky,
+                      side: const BorderSide(color: AppTheme.primarySky),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppTheme.spacing16,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.radiusMedium),
+                      ),
+                    ),
                   ),
                 ),
               ),
-              const Divider(),
+
+              const SizedBox(height: AppTheme.spacing24),
 
               // 내가 초대한 사람 섹션
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacing16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       context.l10n.mymenu_tab_invited_by_me,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      style: AppTheme.heading2.copyWith(
+                        fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppTheme.spacing12),
                     SizedBox(
-                      height: 100,
+                      height: 110,
                       child: fromMeAsync.when(
                         data: (data) {
                           if (data.invites.isEmpty) {
                             return Center(
                               child: Text(
                                 context.l10n.mymenu_empty_invited_by_me,
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: AppTheme.body2.copyWith(
+                                  color: AppTheme.textSecondary,
+                                ),
                               ),
                             );
                           }
@@ -217,48 +330,68 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                             itemCount: data.invites.length,
                             itemBuilder: (context, index) {
                               final invite = data.invites[index];
-                              return Card(
-                                color: Colors.grey[300],
-                                margin: const EdgeInsets.only(right: 8),
-                                child: Container(
-                                  width: 150,
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.grey[200],
-                                        child: Text(
-                                          invite.toUser.nickname[0]
-                                              .toUpperCase(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xff98C4E5)),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        invite.toUser.nickname,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
+                              return Container(
+                                width: 100,
+                                margin: const EdgeInsets.only(
+                                  right: AppTheme.spacing12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.backgroundWhite,
+                                  borderRadius: BorderRadius.circular(
+                                      AppTheme.radiusMedium),
+                                  border: Border.all(
+                                    color: AppTheme.border,
+                                    width: 1,
                                   ),
+                                ),
+                                padding: const EdgeInsets.all(
+                                    AppTheme.spacing12),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 24,
+                                      backgroundColor:
+                                          AppTheme.primarySkyLight,
+                                      foregroundColor:
+                                          AppTheme.primarySkyDark,
+                                      child: Text(
+                                        invite.toUser.nickname[0]
+                                            .toUpperCase(),
+                                        style: AppTheme.heading2.copyWith(
+                                          fontSize: 18,
+                                          color: AppTheme.primarySkyDark,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppTheme.spacing8),
+                                    Text(
+                                      invite.toUser.nickname,
+                                      style: AppTheme.body2.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
                               );
                             },
                           );
                         },
                         loading: () => const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primarySky,
+                            strokeWidth: 3,
+                          ),
                         ),
                         error: (_, __) => Center(
                           child: Text(
                             context.l10n.mymenu_error_message,
-                            style: TextStyle(color: Colors.grey[600]),
+                            style: AppTheme.body2.copyWith(
+                              color: AppTheme.textSecondary,
+                            ),
                           ),
                         ),
                       ),
@@ -266,31 +399,35 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                   ],
                 ),
               ),
-              const Divider(),
+
+              const SizedBox(height: AppTheme.spacing24),
 
               // 나를 초대한 사람 섹션
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacing16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       context.l10n.mymenu_tab_invited_me,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      style: AppTheme.heading2.copyWith(
+                        fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppTheme.spacing12),
                     SizedBox(
-                      height: 100,
+                      height: 110,
                       child: toMeAsync.when(
                         data: (data) {
                           if (data.invites.isEmpty) {
                             return Center(
                               child: Text(
                                 context.l10n.mymenu_empty_invited_me,
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: AppTheme.body2.copyWith(
+                                  color: AppTheme.textSecondary,
+                                ),
                               ),
                             );
                           }
@@ -299,48 +436,68 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                             itemCount: data.invites.length,
                             itemBuilder: (context, index) {
                               final invite = data.invites[index];
-                              return Card(
-                                color: Colors.grey[300],
-                                margin: const EdgeInsets.only(right: 8),
-                                child: Container(
-                                  width: 150,
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.grey[200],
-                                        child: Text(
-                                          invite.fromUser.nickname[0]
-                                              .toUpperCase(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xff98C4E5)),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        invite.fromUser.nickname,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
+                              return Container(
+                                width: 100,
+                                margin: const EdgeInsets.only(
+                                  right: AppTheme.spacing12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.backgroundWhite,
+                                  borderRadius: BorderRadius.circular(
+                                      AppTheme.radiusMedium),
+                                  border: Border.all(
+                                    color: AppTheme.border,
+                                    width: 1,
                                   ),
+                                ),
+                                padding: const EdgeInsets.all(
+                                    AppTheme.spacing12),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 24,
+                                      backgroundColor:
+                                          AppTheme.primarySkyLight,
+                                      foregroundColor:
+                                          AppTheme.primarySkyDark,
+                                      child: Text(
+                                        invite.fromUser.nickname[0]
+                                            .toUpperCase(),
+                                        style: AppTheme.heading2.copyWith(
+                                          fontSize: 18,
+                                          color: AppTheme.primarySkyDark,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppTheme.spacing8),
+                                    Text(
+                                      invite.fromUser.nickname,
+                                      style: AppTheme.body2.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
                               );
                             },
                           );
                         },
                         loading: () => const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primarySky,
+                            strokeWidth: 3,
+                          ),
                         ),
                         error: (_, __) => Center(
                           child: Text(
                             context.l10n.mymenu_error_message,
-                            style: TextStyle(color: Colors.grey[600]),
+                            style: AppTheme.body2.copyWith(
+                              color: AppTheme.textSecondary,
+                            ),
                           ),
                         ),
                       ),
@@ -348,6 +505,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                   ],
                 ),
               ),
+
+              const SizedBox(height: AppTheme.spacing24),
             ],
           ),
         ),
@@ -355,6 +514,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             ref.read(invitesFromMeProvider.notifier).createInviteCode(),
+        backgroundColor: AppTheme.primarySky,
+        foregroundColor: AppTheme.backgroundWhite,
         child: const Icon(Icons.share),
       ),
     );

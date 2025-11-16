@@ -27,55 +27,100 @@ class _LogInScreenState extends State<LogInScreen> with FormValidationMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.backgroundGray,
       appBar: AppBar(
         title: Text(context.l10n.login_app_bar_title),
+        centerTitle: false,
+        backgroundColor: AppTheme.backgroundGray,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppTheme.getHorizontalPadding(context),
-          vertical: AppTheme.getVerticalPadding(context),
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: nicknameController,
-                // validator: (value) => validateEmail(value, context),
-                decoration: const InputDecoration(
-                  labelText: '닉네임',
-                ),
-                // keyboardType:
-                //     TextInputType.emailAddress, // 이메일 입력을 위한 입력 키보드로 변환
-                textInputAction:
-                    TextInputAction.next, // 스크린의 입력 키보드에 next 버튼 생성
-              ),
-              TextFormField(
-                controller: passwordController,
-                // validator: (value) => validatePassword(value, context),
-                decoration: const InputDecoration(
-                  labelText: '비밀번호',
-                ),
-                onFieldSubmitted: (_) {
-                  LogInButton(
-                    formKey: _formKey,
-                    nicknameController: nicknameController,
-                    passwordController: passwordController,
-                  );
-                },
-              ),
-              // const FindPwButton(),
-              LogInButton(
-                formKey: _formKey,
-                nicknameController: nicknameController,
-                passwordController: passwordController,
-              ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppTheme.getHorizontalPadding(context),
+            vertical: AppTheme.spacing24,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: AppTheme.spacing48),
 
-              /// 로그인 폼 - 로그인 버튼
-              const SizedBox(height: 10),
-              const SignUpButton(),
-            ],
+                // 타이틀
+                Text(
+                  '환영합니다',
+                  style: AppTheme.heading1.copyWith(
+                    fontSize: 28,
+                    color: AppTheme.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: AppTheme.spacing12),
+                Text(
+                  '계속하려면 로그인하세요',
+                  style: AppTheme.body1.copyWith(
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+
+                const SizedBox(height: AppTheme.spacing48),
+
+                // 입력 폼 카드
+                Container(
+                  padding: const EdgeInsets.all(AppTheme.spacing24),
+                  decoration: BoxDecoration(
+                    color: AppTheme.backgroundWhite,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                    boxShadow: AppTheme.cardShadow,
+                  ),
+                  child: Column(
+                    children: [
+                      // 닉네임 입력
+                      TextFormField(
+                        controller: nicknameController,
+                        decoration: const InputDecoration(
+                          labelText: '닉네임',
+                          hintText: '닉네임을 입력하세요',
+                          prefixIcon: Icon(Icons.person_outline),
+                        ),
+                        textInputAction: TextInputAction.next,
+                      ),
+
+                      const SizedBox(height: AppTheme.spacing20),
+
+                      // 비밀번호 입력
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: '비밀번호',
+                          hintText: '비밀번호를 입력하세요',
+                          prefixIcon: Icon(Icons.lock_outline),
+                        ),
+                        obscureText: true,
+                        onFieldSubmitted: (_) {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            // 로그인 실행
+                          }
+                        },
+                      ),
+
+                      const SizedBox(height: AppTheme.spacing32),
+
+                      // 로그인 버튼
+                      LogInButton(
+                        formKey: _formKey,
+                        nicknameController: nicknameController,
+                        passwordController: passwordController,
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppTheme.spacing24),
+
+                // 회원가입 버튼
+                const SignUpButton(),
+              ],
+            ),
           ),
         ),
       ),

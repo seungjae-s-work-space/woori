@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/router/router.dart';
 
 Future<void> main() async {
@@ -13,9 +14,8 @@ Future<void> main() async {
 
   runApp(
     Phoenix(
-      // 🔸 여기 추가
       child: const ProviderScope(
-        child: MyApp(), // 기존 MyApp 그대로
+        child: MyApp(),
       ),
     ),
   );
@@ -30,6 +30,8 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: router,
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

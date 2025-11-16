@@ -157,205 +157,270 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
     // 좋아요와 댓글 수의 합계
     final int totalActivities = _post.likeCount + _post.commentCount;
 
-    return Padding(
-      padding: const EdgeInsets.all(12),
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xffEEEEEE),
+          width: 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 내 게시글 표시 배지
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    _formatDate(_post.createdAt),
-                    style: Theme.of(context).textTheme.titleLarge,
+          // 날짜 및 시간
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Row(
+              children: [
+                Text(
+                  _formatDate(_post.createdAt),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff212121),
                   ),
-                  SizedBox(
-                    width: 10,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  _formatDateDetail(_post.createdAt),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xff757575),
                   ),
-                  Text(
-                    _formatDateDetail(_post.createdAt),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
 
           // 게시글 내용
-          Text(
-            _post.content,
-            style: const TextStyle(fontSize: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0xffFAFAFA),
+            ),
+            child: Text(
+              _post.content,
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: Color(0xff212121),
+              ),
+            ),
           ),
-          const SizedBox(height: 12),
 
           // 이미지가 있는 경우
-          if (_post.imageUrl != null) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                _post.imageUrl!,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stack) => Container(
-                  height: 200,
-                  color: Colors.grey[200],
-                  child: const Center(child: Icon(Icons.broken_image)),
+          if (_post.imageUrl != null)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  _post.imageUrl!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stack) => Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffFAFAFA),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.broken_image_outlined,
+                        size: 48,
+                        color: Color(0xffBDBDBD),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-          ],
-          totalActivities > 0
-              ?
-              // 활동 수 및 로그 버튼
-              InkWell(
-                  onTap: _toggleLogs,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              _showLogs
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
-                              size: 20,
-                              color: Colors.grey[700],
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              totalActivities > 0
-                                  ? context.l10n
-                                      .activity_logs_count(totalActivities)
-                                  : context.l10n.no_activity_logs,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+
+          // 활동 수 및 로그 버튼
+          if (totalActivities > 0)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 12,
+              ),
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Color(0xffE0E0E0),
+                    width: 1,
                   ),
-                )
-              : const SizedBox(),
+                ),
+              ),
+              child: InkWell(
+                onTap: _toggleLogs,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 8,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _showLogs
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 20,
+                        color: const Color(0xff757575),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        context.l10n.activity_logs_count(totalActivities),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xff757575),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
           // 활동 로그 (접을 수 있는 형태)
           if (_showLogs) ...[
-            const Divider(height: 24),
-            _isLoadingLogs
-                ? const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : _activityLogs.isEmpty
-                    ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(context.l10n.no_activity_logs),
+            const Divider(height: 1, color: Color(0xffE0E0E0)),
+            Container(
+              color: const Color(0xffFAFAFA),
+              padding: const EdgeInsets.all(16),
+              child: _isLoadingLogs
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(
+                          color: Color(0xff98C4E5),
+                          strokeWidth: 3,
                         ),
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _activityLogs.length,
-                        itemBuilder: (context, index) {
-                          final log = _activityLogs[index];
-                          final isComment = log['type'] == 'comment';
-                          final user = log['user'];
-                          final DateTime createdAt = log['createdAt'];
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // 프로필 이미지 또는 이니셜
-                                CircleAvatar(
-                                  radius: 16,
-                                  child: Text(user['nickname'].substring(0, 1)),
-                                ),
-                                const SizedBox(width: 8),
-
-                                // 활동 내용
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          style: DefaultTextStyle.of(context)
-                                              .style,
-                                          children: [
-                                            TextSpan(
-                                              text: user['nickname'],
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            TextSpan(
-                                              text: isComment
-                                                  ? context.l10n
-                                                      .activity_comment_text
-                                                  : context
-                                                      .l10n.activity_like_text,
-                                              style: const TextStyle(
-                                                  color: Colors.black87),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      if (isComment) ...[
-                                        const SizedBox(height: 4),
-                                        Text(log['content']),
-                                      ],
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        timeago.format(
-                                          createdAt,
-                                          locale:
-                                              Localizations.localeOf(context)
-                                                  .languageCode,
-                                        ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                              color: Colors.grey[600],
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // 활동 타입 아이콘
-                                Icon(
-                                  isComment
-                                      ? Icons.comment_outlined
-                                      : Icons.favorite,
-                                  size: 16,
-                                  color: isComment ? Colors.blue : Colors.red,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
                       ),
+                    )
+                  : _activityLogs.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              context.l10n.no_activity_logs,
+                              style: const TextStyle(
+                                color: Color(0xff757575),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _activityLogs.length,
+                          itemBuilder: (context, index) {
+                            final log = _activityLogs[index];
+                            final isComment = log['type'] == 'comment';
+                            final user = log['user'];
+                            final DateTime createdAt = log['createdAt'];
+
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // 프로필 이미지 또는 이니셜
+                                  CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor: const Color(0xffB8D9F5),
+                                    foregroundColor: const Color(0xff7AB0D8),
+                                    child: Text(
+                                      user['nickname'].substring(0, 1).toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+
+                                  // 활동 내용
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xff212121),
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: user['nickname'],
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: isComment
+                                                    ? context.l10n.activity_comment_text
+                                                    : context.l10n.activity_like_text,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        if (isComment) ...[
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            log['content'],
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xff212121),
+                                            ),
+                                          ),
+                                        ],
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          timeago.format(
+                                            createdAt,
+                                            locale: Localizations.localeOf(context)
+                                                .languageCode,
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xff757575),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  // 활동 타입 아이콘
+                                  Icon(
+                                    isComment
+                                        ? Icons.comment_outlined
+                                        : Icons.favorite,
+                                    size: 16,
+                                    color: isComment
+                                        ? const Color(0xff98C4E5)
+                                        : const Color(0xffFF6B6B),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+            ),
           ],
         ],
       ),

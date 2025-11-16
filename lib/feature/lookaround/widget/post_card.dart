@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/data/rest_api_client/rest_api_client.dart';
 import 'package:woori/models/post_model.dart';
+import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/localization_extension.dart';
 import 'package:woori/utils/talker.dart';
 
@@ -155,87 +156,196 @@ class _PostCardState extends ConsumerState<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 작성자 정보 및 날짜
-            Row(
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spacing16,
+        vertical: AppTheme.spacing12,
+      ),
+      decoration: BoxDecoration(
+        color: AppTheme.backgroundWhite,
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+        border: Border.all(
+          color: AppTheme.border,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 작성자 정보 및 날짜
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.spacing16,
+              AppTheme.spacing16,
+              AppTheme.spacing16,
+              AppTheme.spacing12,
+            ),
+            child: Row(
               children: [
                 CircleAvatar(
-                  child: Text(_post.user?.nickname.substring(0, 1) ?? '?'),
+                  backgroundColor: AppTheme.primarySkyLight,
+                  foregroundColor: AppTheme.primarySkyDark,
+                  radius: 20,
+                  child: Text(
+                    _post.user?.nickname.substring(0, 1).toUpperCase() ?? '?',
+                    style: AppTheme.heading2.copyWith(
+                      fontSize: 16,
+                      color: AppTheme.primarySkyDark,
+                    ),
+                  ),
                 ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _post.user?.nickname ?? context.l10n.unknown_user,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      _formatDate(_post.createdAt),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
+                const SizedBox(width: AppTheme.spacing12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _post.user?.nickname ?? context.l10n.unknown_user,
+                        style: AppTheme.body1.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        _formatDate(_post.createdAt),
+                        style: AppTheme.caption.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
+          ),
 
-            // 게시글 내용
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Text(_post.content),
+          // 게시글 내용
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppTheme.spacing16,
+              vertical: AppTheme.spacing12,
             ),
+            decoration: const BoxDecoration(
+              color: AppTheme.backgroundWhite,
+            ),
+            child: Text(
+              _post.content,
+              style: AppTheme.body1.copyWith(
+                fontSize: 14,
+                height: 1.5,
+              ),
+            ),
+          ),
 
-            // 이미지가 있는 경우
-            if (_post.imageUrl != null) ...[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+          // 이미지가 있는 경우
+          if (_post.imageUrl != null)
+            Padding(
+              padding: const EdgeInsets.all(AppTheme.spacing16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                 child: Image.network(
                   _post.imageUrl!,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stack) => Container(
-                    height: 180,
-                    color: Colors.grey[200],
-                    child: const Center(child: Icon(Icons.broken_image)),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-            ],
-
-            // 좋아요, 댓글 버튼
-            Row(
-              children: [
-                InkWell(
-                  onTap: _toggleLike,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      _post.isLiked ? Icons.favorite : Icons.favorite_border,
-                      color: _post.isLiked ? Colors.red : null,
-                      size: 20,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: AppTheme.backgroundLight,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.broken_image_outlined,
+                        size: 48,
+                        color: AppTheme.textHint,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+              ),
+            ),
+
+          // 좋아요, 댓글 버튼
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppTheme.spacing8,
+              vertical: AppTheme.spacing12,
+            ),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppTheme.divider,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
                 InkWell(
-                  onTap: _showCommentDialog,
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.comment_outlined, size: 20),
+                  onTap: _toggleLike,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spacing8,
+                      vertical: AppTheme.spacing4,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          _post.isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: _post.isLiked ? AppTheme.accentRed : AppTheme.textSecondary,
+                          size: 20,
+                        ),
+                        if (_post.likeCount > 0) ...[
+                          const SizedBox(width: AppTheme.spacing4),
+                          Text(
+                            '${_post.likeCount}',
+                            style: AppTheme.caption.copyWith(
+                              color: _post.isLiked ? AppTheme.accentRed : AppTheme.textSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: AppTheme.spacing8),
+                InkWell(
+                  onTap: _showCommentDialog,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spacing8,
+                      vertical: AppTheme.spacing4,
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.comment_outlined,
+                          size: 20,
+                          color: AppTheme.textSecondary,
+                        ),
+                        if (_post.commentCount > 0) ...[
+                          const SizedBox(width: AppTheme.spacing4),
+                          Text(
+                            '${_post.commentCount}',
+                            style: AppTheme.caption.copyWith(
+                              color: AppTheme.textSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
