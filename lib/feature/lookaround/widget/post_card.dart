@@ -294,8 +294,12 @@ class _PostCardState extends ConsumerState<PostCard> {
                     child: Row(
                       children: [
                         Icon(
-                          _post.isLiked ? Icons.favorite : Icons.favorite_border,
-                          color: _post.isLiked ? AppTheme.accentRed : AppTheme.textSecondary,
+                          _post.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: _post.isLiked
+                              ? AppTheme.accentRed
+                              : AppTheme.textSecondary,
                           size: 20,
                         ),
                         if (_post.likeCount > 0) ...[
@@ -303,7 +307,9 @@ class _PostCardState extends ConsumerState<PostCard> {
                           Text(
                             '${_post.likeCount}',
                             style: AppTheme.caption.copyWith(
-                              color: _post.isLiked ? AppTheme.accentRed : AppTheme.textSecondary,
+                              color: _post.isLiked
+                                  ? AppTheme.accentRed
+                                  : AppTheme.textSecondary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

@@ -7,7 +7,8 @@ PreferredSizeWidget buildAppBarContent(
   return PreferredSize(
     preferredSize: Size.fromHeight(60 * widthMul),
     child: Container(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.2))),
+      decoration:
+          const BoxDecoration(border: Border(bottom: BorderSide(width: 0.2))),
       child: AppBar(
         backgroundColor: const Color(0xffffffff),
         scrolledUnderElevation: 0,
@@ -28,7 +29,7 @@ PreferredSizeWidget buildAppBarContent(
                     context.go('/camera');
                   },
                 )
-              : SizedBox()
+              : const SizedBox()
         ],
         centerTitle: false,
       ),

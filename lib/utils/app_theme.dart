@@ -102,20 +102,20 @@ class AppTheme {
   // ========================================
 
   static List<BoxShadow> get cardShadow => const [
-    BoxShadow(
-      color: shadow,
-      blurRadius: 8,
-      offset: Offset(0, 2),
-    ),
-  ];
+        BoxShadow(
+          color: shadow,
+          blurRadius: 8,
+          offset: Offset(0, 2),
+        ),
+      ];
 
   static List<BoxShadow> get buttonShadow => const [
-    BoxShadow(
-      color: shadow,
-      blurRadius: 4,
-      offset: Offset(0, 2),
-    ),
-  ];
+        BoxShadow(
+          color: shadow,
+          blurRadius: 4,
+          offset: Offset(0, 2),
+        ),
+      ];
 
   // ========================================
   // 디바이스 크기별 패딩

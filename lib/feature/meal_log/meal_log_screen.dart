@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:woori/feature/meal_log/provider/meal_log_provider.dart';
 import 'package:woori/feature/meal_log/widget/my_post_card.dart';
 import 'package:woori/utils/app_theme.dart';
@@ -114,8 +113,9 @@ class MealLogScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: AppTheme.spacing32),
                         ElevatedButton.icon(
-                          onPressed: () =>
-                              ref.read(mealLogPostsProvider.notifier).loadPosts(),
+                          onPressed: () => ref
+                              .read(mealLogPostsProvider.notifier)
+                              .loadPosts(),
                           icon: const Icon(Icons.refresh),
                           label: Text(context.l10n.retry_button),
                         ),

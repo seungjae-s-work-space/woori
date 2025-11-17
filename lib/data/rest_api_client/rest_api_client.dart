@@ -44,6 +44,13 @@ abstract class RestApiClient {
   @POST('{endpoint}')
   Future<dynamic> post(@Path('endpoint') String endpoint, @Body() dynamic body);
 
+  /// POST 요청 (Multipart FormData 전용)
+  @POST('{endpoint}')
+  Future<dynamic> postMultipart(
+    @Path('endpoint') String endpoint,
+    @Body() FormData formData,
+  );
+
   /// PUT 요청 함수
   @PUT('{endpoint}')
   Future<dynamic> put(@Path('endpoint') String endpoint, @Body() dynamic body);

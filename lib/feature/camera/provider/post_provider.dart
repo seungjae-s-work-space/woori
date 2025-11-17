@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:woori/data/rest_api_client/rest_api_client.dart';
 import 'package:woori/dto/create_post_dto.dart';
 import 'package:woori/utils/talker.dart';
@@ -13,14 +16,44 @@ class PostNotifier extends StateNotifier<PostState> {
   PostNotifier(this._apiClient) : super(PostState());
   final RestApiClient _apiClient;
 
-  Future<void> createPost(CreatePostDto createPostDto) async {
+  Future<void> createPost(CreatePostDto createPostDto,
+      {File? imageFile}) async {
     try {
       state = state.copyWith(isLoading: true);
-      talkerInfo('post', createPostDto.toString());
+      talkerInfo('post', 'Creating post: ${createPostDto.content}');
 
-      final response =
-          await _apiClient.post('posts/create-post', createPostDto);
-      talkerInfo('post', jsonEncode(response));
+      dynamic response;
+
+      if (imageFile != null) {
+        // 이미지가 있는 경우 - FormData 생성
+        final formData = FormData();
+
+        // 텍스트 content 추가
+        formData.fields.add(MapEntry('content', createPostDto.content));
+
+        // 이미지 파일 추가
+        final fileName = imageFile.path.split('/').last;
+        formData.files.add(
+          MapEntry(
+            'image',
+            await MultipartFile.fromFile(
+              imageFile.path,
+              filename: fileName,
+              contentType: MediaType('image', 'jpeg'), // JPEG mimetype 명시
+            ),
+          ),
+        );
+        talkerInfo('post', 'Image attached: $fileName');
+
+        // multipart/form-data로 전송
+        response =
+            await _apiClient.postMultipart('posts/create-post', formData);
+      } else {
+        // 이미지가 없는 경우 - 일반 JSON 전송
+        response = await _apiClient.post('posts/create-post', createPostDto);
+      }
+
+      talkerInfo('post', 'Response: ${jsonEncode(response)}');
 
       if (response['message'] == 'Success') {
         state = state.copyWith(isSuccess: true);

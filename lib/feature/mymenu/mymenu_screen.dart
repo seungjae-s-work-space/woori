@@ -79,7 +79,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
-                  borderSide: const BorderSide(color: AppTheme.primarySky, width: 2),
+                  borderSide:
+                      const BorderSide(color: AppTheme.primarySky, width: 2),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: AppTheme.spacing16,
@@ -122,7 +123,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                         backgroundColor: AppTheme.accentGreen,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                          borderRadius:
+                              BorderRadius.circular(AppTheme.radiusMedium),
                         ),
                       ),
                     );
@@ -135,7 +137,8 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                         backgroundColor: AppTheme.accentRed,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                          borderRadius:
+                              BorderRadius.circular(AppTheme.radiusMedium),
                         ),
                       ),
                     );
@@ -344,21 +347,17 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                                     width: 1,
                                   ),
                                 ),
-                                padding: const EdgeInsets.all(
-                                    AppTheme.spacing12),
+                                padding:
+                                    const EdgeInsets.all(AppTheme.spacing12),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CircleAvatar(
                                       radius: 24,
-                                      backgroundColor:
-                                          AppTheme.primarySkyLight,
-                                      foregroundColor:
-                                          AppTheme.primarySkyDark,
+                                      backgroundColor: AppTheme.primarySkyLight,
+                                      foregroundColor: AppTheme.primarySkyDark,
                                       child: Text(
-                                        invite.toUser.nickname[0]
-                                            .toUpperCase(),
+                                        invite.toUser.nickname[0].toUpperCase(),
                                         style: AppTheme.heading2.copyWith(
                                           fontSize: 18,
                                           color: AppTheme.primarySkyDark,
@@ -450,18 +449,15 @@ class _MyMenuScreenState extends ConsumerState<MyMenuScreen> {
                                     width: 1,
                                   ),
                                 ),
-                                padding: const EdgeInsets.all(
-                                    AppTheme.spacing12),
+                                padding:
+                                    const EdgeInsets.all(AppTheme.spacing12),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CircleAvatar(
                                       radius: 24,
-                                      backgroundColor:
-                                          AppTheme.primarySkyLight,
-                                      foregroundColor:
-                                          AppTheme.primarySkyDark,
+                                      backgroundColor: AppTheme.primarySkyLight,
+                                      foregroundColor: AppTheme.primarySkyDark,
                                       child: Text(
                                         invite.fromUser.nickname[0]
                                             .toUpperCase(),

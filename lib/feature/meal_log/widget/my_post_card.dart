@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woori/data/rest_api_client/rest_api_client.dart';
 import 'package:woori/models/post_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:woori/utils/app_theme.dart';
 import 'package:woori/utils/localization_extension.dart';
 import 'package:woori/utils/talker.dart';
 
@@ -159,14 +160,14 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
 
     return Container(
       margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
+        horizontal: AppTheme.spacing16,
+        vertical: AppTheme.spacing12,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: AppTheme.backgroundWhite,
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         border: Border.all(
-          color: const Color(0xffEEEEEE),
+          color: AppTheme.border,
           width: 1,
         ),
       ),
@@ -175,23 +176,26 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
         children: [
           // 날짜 및 시간
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.spacing16,
+              AppTheme.spacing16,
+              AppTheme.spacing16,
+              AppTheme.spacing12,
+            ),
             child: Row(
               children: [
                 Text(
                   _formatDate(_post.createdAt),
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: AppTheme.body1.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Color(0xff212121),
+                    fontSize: 14,
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: AppTheme.spacing8),
                 Text(
                   _formatDateDetail(_post.createdAt),
-                  style: const TextStyle(
+                  style: AppTheme.caption.copyWith(
                     fontSize: 12,
-                    color: Color(0xff757575),
                   ),
                 ),
               ],
@@ -202,18 +206,14 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-            decoration: const BoxDecoration(
-              color: Color(0xffFAFAFA),
+              horizontal: AppTheme.spacing16,
+              vertical: AppTheme.spacing12,
             ),
             child: Text(
               _post.content,
-              style: const TextStyle(
+              style: AppTheme.body1.copyWith(
                 fontSize: 14,
                 height: 1.5,
-                color: Color(0xff212121),
               ),
             ),
           ),
@@ -221,9 +221,9 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
           // 이미지가 있는 경우
           if (_post.imageUrl != null)
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spacing16),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                 child: Image.network(
                   _post.imageUrl!,
                   width: double.infinity,
@@ -231,14 +231,14 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                   errorBuilder: (context, error, stack) => Container(
                     height: 200,
                     decoration: BoxDecoration(
-                      color: const Color(0xffFAFAFA),
-                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme.backgroundLight,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                     ),
                     child: const Center(
                       child: Icon(
                         Icons.broken_image_outlined,
                         size: 48,
-                        color: Color(0xffBDBDBD),
+                        color: AppTheme.textHint,
                       ),
                     ),
                   ),
@@ -250,24 +250,24 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
           if (totalActivities > 0)
             Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 12,
+                horizontal: AppTheme.spacing8,
+                vertical: AppTheme.spacing12,
               ),
               decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: Color(0xffE0E0E0),
+                    color: AppTheme.divider,
                     width: 1,
                   ),
                 ),
               ),
               child: InkWell(
                 onTap: _toggleLogs,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 4,
-                    horizontal: 8,
+                    vertical: AppTheme.spacing4,
+                    horizontal: AppTheme.spacing8,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -277,14 +277,12 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
                         size: 20,
-                        color: const Color(0xff757575),
+                        color: AppTheme.textSecondary,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: AppTheme.spacing4),
                       Text(
                         context.l10n.activity_logs_count(totalActivities),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xff757575),
+                        style: AppTheme.caption.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -296,16 +294,16 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
 
           // 활동 로그 (접을 수 있는 형태)
           if (_showLogs) ...[
-            const Divider(height: 1, color: Color(0xffE0E0E0)),
+            const Divider(height: 1, color: AppTheme.divider),
             Container(
-              color: const Color(0xffFAFAFA),
-              padding: const EdgeInsets.all(16),
+              color: AppTheme.backgroundLight,
+              padding: const EdgeInsets.all(AppTheme.spacing16),
               child: _isLoadingLogs
                   ? const Center(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(AppTheme.spacing8),
                         child: CircularProgressIndicator(
-                          color: Color(0xff98C4E5),
+                          color: AppTheme.primarySky,
                           strokeWidth: 3,
                         ),
                       ),
@@ -313,13 +311,10 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                   : _activityLogs.isEmpty
                       ? Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(AppTheme.spacing8),
                             child: Text(
                               context.l10n.no_activity_logs,
-                              style: const TextStyle(
-                                color: Color(0xff757575),
-                                fontSize: 13,
-                              ),
+                              style: AppTheme.caption,
                             ),
                           ),
                         )
@@ -334,35 +329,37 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                             final DateTime createdAt = log['createdAt'];
 
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: AppTheme.spacing8),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // 프로필 이미지 또는 이니셜
                                   CircleAvatar(
                                     radius: 16,
-                                    backgroundColor: const Color(0xffB8D9F5),
-                                    foregroundColor: const Color(0xff7AB0D8),
+                                    backgroundColor: AppTheme.primarySkyLight,
+                                    foregroundColor: AppTheme.primarySkyDark,
                                     child: Text(
-                                      user['nickname'].substring(0, 1).toUpperCase(),
-                                      style: const TextStyle(
-                                        fontSize: 12,
+                                      user['nickname']
+                                          .substring(0, 1)
+                                          .toUpperCase(),
+                                      style: AppTheme.caption.copyWith(
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: AppTheme.spacing8),
 
                                   // 활동 내용
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         RichText(
                                           text: TextSpan(
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Color(0xff212121),
+                                            style: AppTheme.caption.copyWith(
+                                              color: AppTheme.textPrimary,
                                             ),
                                             children: [
                                               TextSpan(
@@ -373,19 +370,20 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                                               ),
                                               TextSpan(
                                                 text: isComment
-                                                    ? context.l10n.activity_comment_text
-                                                    : context.l10n.activity_like_text,
+                                                    ? context.l10n
+                                                        .activity_comment_text
+                                                    : context.l10n
+                                                        .activity_like_text,
                                               ),
                                             ],
                                           ),
                                         ),
                                         if (isComment) ...[
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: AppTheme.spacing4),
                                           Text(
                                             log['content'],
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Color(0xff212121),
+                                            style: AppTheme.caption.copyWith(
+                                              color: AppTheme.textPrimary,
                                             ),
                                           ),
                                         ],
@@ -393,12 +391,12 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                                         Text(
                                           timeago.format(
                                             createdAt,
-                                            locale: Localizations.localeOf(context)
-                                                .languageCode,
+                                            locale:
+                                                Localizations.localeOf(context)
+                                                    .languageCode,
                                           ),
-                                          style: const TextStyle(
+                                          style: AppTheme.caption.copyWith(
                                             fontSize: 11,
-                                            color: Color(0xff757575),
                                           ),
                                         ),
                                       ],
@@ -412,8 +410,8 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
                                         : Icons.favorite,
                                     size: 16,
                                     color: isComment
-                                        ? const Color(0xff98C4E5)
-                                        : const Color(0xffFF6B6B),
+                                        ? AppTheme.primarySky
+                                        : AppTheme.accentRed,
                                   ),
                                 ],
                               ),
