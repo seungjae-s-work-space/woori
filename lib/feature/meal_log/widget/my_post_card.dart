@@ -59,11 +59,8 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
           await apiClient.get('comments/post/${_post.id}', {});
       final List<dynamic> comments = commentsResponse['data'];
 
-      // 좋아요 로드 - 응답 구조 확인 및 적응
+      // 좋아요 로드
       final likesResponse = await apiClient.get('likes/post/${_post.id}', {});
-
-      // 로그에 실제 응답 구조 출력
-      talkerError('my_post_card', '좋아요 응답 구조: ${likesResponse['data']}', '');
 
       // 댓글과 좋아요를 하나의 통합된 활동 로그로 변환
       final List<Map<String, dynamic>> logs = [];
@@ -79,20 +76,10 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
         });
       }
 
-      // 좋아요 데이터가 여러 형태로 올 수 있으므로 타입 확인 후 처리
+      // 좋아요 데이터 처리
+      // API 응답: { data: { count, isLiked, likes: [...] } }
       final likesData = likesResponse['data'];
-      if (likesData is List) {
-        // 목록 형태인 경우
-        for (final like in likesData) {
-          logs.add({
-            'type': 'like',
-            'userId': like['userId'],
-            'user': like['user'],
-            'createdAt': DateTime.parse(like['createdAt']),
-          });
-        }
-      } else if (likesData is Map && likesData.containsKey('likes')) {
-        // Map 내부에 목록이 있는 경우
+      if (likesData is Map && likesData.containsKey('likes')) {
         final likesList = likesData['likes'] as List;
         for (final like in likesList) {
           logs.add({
@@ -103,7 +90,6 @@ class _MyPostCardState extends ConsumerState<MyPostCard> {
           });
         }
       }
-      // 다른 형태의 응답은 여기서 처리 가능
 
       // 시간순으로 정렬 (최신순)
       logs.sort((a, b) =>

@@ -89,18 +89,62 @@ class _PostCardState extends ConsumerState<PostCard> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(context.l10n.add_comment_title),
+        backgroundColor: AppTheme.backgroundWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+        ),
+        title: Text(
+          context.l10n.add_comment_title,
+          style: AppTheme.heading2.copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         content: TextField(
           controller: _commentController,
           decoration: InputDecoration(
             hintText: context.l10n.write_comment_hint,
+            hintStyle: AppTheme.body1.copyWith(
+              color: AppTheme.textHint,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+              borderSide: const BorderSide(
+                color: AppTheme.border,
+                width: 1,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+              borderSide: const BorderSide(
+                color: AppTheme.border,
+                width: 1,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+              borderSide: const BorderSide(
+                color: AppTheme.primarySky,
+                width: 2,
+              ),
+            ),
+            contentPadding: const EdgeInsets.all(AppTheme.spacing12),
           ),
+          style: AppTheme.body1,
           maxLines: 3,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(context.l10n.cancel_button),
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.textSecondary,
+            ),
+            child: Text(
+              context.l10n.cancel_button,
+              style: AppTheme.body1.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -109,7 +153,16 @@ class _PostCardState extends ConsumerState<PostCard> {
                 Navigator.pop(context);
               }
             },
-            child: Text(context.l10n.submit_button),
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.primarySky,
+            ),
+            child: Text(
+              context.l10n.submit_button,
+              style: AppTheme.body1.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppTheme.primarySky,
+              ),
+            ),
           ),
         ],
       ),
@@ -291,30 +344,14 @@ class _PostCardState extends ConsumerState<PostCard> {
                       horizontal: AppTheme.spacing8,
                       vertical: AppTheme.spacing4,
                     ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          _post.isLiked
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: _post.isLiked
-                              ? AppTheme.accentRed
-                              : AppTheme.textSecondary,
-                          size: 20,
-                        ),
-                        if (_post.likeCount > 0) ...[
-                          const SizedBox(width: AppTheme.spacing4),
-                          Text(
-                            '${_post.likeCount}',
-                            style: AppTheme.caption.copyWith(
-                              color: _post.isLiked
-                                  ? AppTheme.accentRed
-                                  : AppTheme.textSecondary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ],
+                    child: Icon(
+                      _post.isLiked
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: _post.isLiked
+                          ? AppTheme.accentRed
+                          : AppTheme.textSecondary,
+                      size: 20,
                     ),
                   ),
                 ),
@@ -327,24 +364,10 @@ class _PostCardState extends ConsumerState<PostCard> {
                       horizontal: AppTheme.spacing8,
                       vertical: AppTheme.spacing4,
                     ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.comment_outlined,
-                          size: 20,
-                          color: AppTheme.textSecondary,
-                        ),
-                        if (_post.commentCount > 0) ...[
-                          const SizedBox(width: AppTheme.spacing4),
-                          Text(
-                            '${_post.commentCount}',
-                            style: AppTheme.caption.copyWith(
-                              color: AppTheme.textSecondary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ],
+                    child: const Icon(
+                      Icons.comment_outlined,
+                      size: 20,
+                      color: AppTheme.textSecondary,
                     ),
                   ),
                 ),
